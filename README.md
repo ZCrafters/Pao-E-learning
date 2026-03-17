@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PAO FINATRA E-Learning Platform
 
-## Getting Started
+Platform pelatihan online untuk Partnership Account Officer (PAO) FINATRA dengan fitur lengkap: modul pembelajaran, quiz interaktif, progress tracking, dan admin dashboard.
 
-First, run the development server:
+## 🚀 Fitur Utama
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Untuk Peserta
+- **4 Modul Pembelajaran** (Bab 1-4) dengan konten lengkap
+- **Progress Tracking** - lacak kemajuan belajar
+- **Post-Test Interaktif** (5 soal) dengan feedback langsung
+- **Sertifikasi Digital** - status LULUS/REMEDIAL
+
+### Untuk Admin
+- **Dashboard Statistik** - overview pelatihan real-time
+- **Export Excel** - download hasil pelatihan dalam format .xlsx
+- **Monitoring Peserta** - lihat progress dan hasil quiz per peserta
+
+## 🛠 Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Database:** SQLite + Prisma ORM
+- **Styling:** Tailwind CSS
+- **Export:** xlsx (Excel)
+
+## 📁 Struktur Project
+
+```
+pao-elearning/
+├── prisma/
+│   ├── schema.prisma    # Database schema
+│   └── seed.ts          # Seed data (4 modules + 5 questions)
+├── src/
+│   ├── app/
+│   │   ├── api/         # Backend API routes
+│   │   │   ├── participants/  # CRUD peserta
+│   │   │   ├── quiz/          # Get questions & Submit answers
+│   │   │   ├── progress/      # Track learning progress
+│   │   │   ├── admin/         # Dashboard stats
+│   │   │   └── admin/export/  # Export to Excel
+│   │   ├── bab/[slug]/  # Module pages (Bab 1-4)
+│   │   ├── quiz/        # Quiz page
+│   │   ├── admin/       # Admin dashboard
+│   │   ├── page.tsx     # Home page
+│   │   ├── layout.tsx   # Root layout
+│   │   └── globals.css  # Global styles
+│   ├── components/      # React components
+│   └── lib/
+│       └── prisma.ts    # Database client
+├── .env                 # Environment variables
+└── next.config.mjs      # Next.js config
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Option 1: Deploy ke Vercel (Recommended)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Push ke GitHub:**
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/username/pao-elearning.git
+git push -u origin main
+```
 
-## Learn More
+2. **Deploy ke Vercel:**
+- Buka [vercel.com](https://vercel.com)
+- Import project dari GitHub
+- Environment variables sudah diatur di `.env`
+- Deploy!
 
-To learn more about Next.js, take a look at the following resources:
+3. **Setup Database:**
+```bash
+# Setelah deploy, jalankan di local:
+npx prisma migrate dev
+npm run seed
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Option 2: Deploy ke VPS/Server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Build project:**
+```bash
+npm run build
+```
 
-## Deploy on Vercel
+2. **Upload ke server:**
+```bash
+# Upload folder `dist` ke server
+# Pastikan Node.js 18+ terinstall
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Setup production:**
+```bash
+npm install --production
+npx prisma generate
+npx prisma migrate deploy
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔌 API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/participants` | POST | Register new participant |
+| `/api/participants` | GET | Get all participants |
+| `/api/quiz` | GET | Get quiz questions |
+| `/api/quiz` | POST | Submit quiz answers |
+| `/api/progress` | POST | Update module progress |
+| `/api/progress` | GET | Get participant progress |
+| `/api/admin` | GET | Get dashboard stats |
+| `/api/admin/export` | GET | Export to Excel |
+
+## 💾 Database Schema
+
+```prisma
+Participant {
+  id, nama, cabang, email, createdAt
+  results: QuizResult[]
+  progress: Progress
+}
+
+Module {
+  id, title, slug, description, content, order, color
+  questions: Question[]
+}
+
+Question {
+  id, moduleId, question, options, correct, explanation, order
+}
+
+QuizResult {
+  id, participantId, score, total, percentage, answers, status
+}
+
+Progress {
+  id, participantId, modulesRead, percent
+}
+```
+
+## 📝 Development
+
+```bash
+# Install dependencies
+npm install
+
+# Setup database
+npx prisma generate
+npx prisma db push
+npm run seed
+
+# Run dev server
+npm run dev
+
+# Open http://localhost:3000
+```
+
+## 🎨 Design System
+
+Platform menggunakan design system yang konsisten:
+- **Primary Colors:** Blue (#378ADD), Green (#1D9E75), Orange (#BA7517), Pink (#D4537E)
+- **Typography:** System UI font stack
+- **Spacing:** Consistent 4px/8px grid
+- **Components:** Cards, Buttons, Progress bars, Tables
+
+## 🔒 Environment Variables
+
+```env
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_SECRET="your-secret-key"
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+## 📱 Mobile Responsive
+
+Platform fully responsive dan optimized untuk mobile learning.
+
+## 📄 License
+
+Internal Use - FINATRA PAO Training Module

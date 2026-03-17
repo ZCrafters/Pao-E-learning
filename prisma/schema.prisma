@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Participant {
+  id          String    @id @default(uuid())
+  nama        String
+  cabang      String
+  email       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  results     QuizResult[]
+  progress    Progress?
+}
+
+model Module {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  description String
+  order       Int
+  color       String    // For UI theming
+  content     String    // JSON content
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  questions   Question[]
+}
+
+model Question {
+  id          String    @id @default(uuid())
+  moduleId    String
+  question    String
+  options     String    // JSON array ["A. Option 1", "B. Option 2", ...]
+  correct     String    // "A", "B", "C", etc.
+  explanation String
+  order       Int
+  
+  module      Module    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+}
+
+model QuizResult {
+  id            String    @id @default(uuid())
+  participantId String
+  score         Int
+  total         Int
+  percentage    Float
+  answers       String    // JSON object { "q1": "A", "q2": "B", ... }
+  status        String    // "LULUS" or "REMEDIAL"
+  createdAt     DateTime  @default(now())
+  
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+}
+
+model Progress {
+  id            String    @id @default(uuid())
+  participantId String    @unique
+  modulesRead   String    // JSON array of module slugs ["bab1", "bab2"]
+  percent       Int       @default(0)
+  updatedAt     DateTime  @updatedAt
+  
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String   // Hashed
+  email     String?
+  createdAt DateTime @default(now())
+}
