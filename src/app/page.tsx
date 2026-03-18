@@ -19,6 +19,7 @@ export default function Home() {
   const [participant, setParticipant] = useState<{id: string, nama: string} | null>(null)
   const [formData, setFormData] = useState({ nama: '', cabang: '', email: '' })
   const [isLoading, setIsLoading] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [progress, setProgress] = useState(0)
   const [showDebug, setShowDebug] = useState(false)
 
@@ -62,23 +63,40 @@ export default function Home() {
     e.preventDefault()
     if (!formData.nama || !formData.cabang) return
     
+    setSubmitError('')
     setIsLoading(true)
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 15000)
     try {
       const res = await fetch('/api/participants', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+        signal: controller.signal,
       })
-      const data = await res.json()
+      const data = await res.json().catch((error) => {
+        console.error('Error parsing registration response:', error)
+        return null
+      })
       
-      if (data.success) {
-        localStorage.setItem('pao_participant', JSON.stringify(data.data))
-        setParticipant(data.data)
+      if (!res.ok || !data?.success) {
+        setSubmitError(data?.error || 'Pendaftaran gagal. Coba lagi.')
+        return
       }
-    } catch (error) {
+
+      localStorage.setItem('pao_participant', JSON.stringify(data.data))
+      setParticipant(data.data)
+    } catch (error: any) {
+      if (error?.name === 'AbortError') {
+        setSubmitError('Koneksi terlalu lama. Periksa internet lalu coba lagi.')
+      } else {
+        setSubmitError('Terjadi kesalahan koneksi. Coba lagi.')
+      }
       console.error('Error registering:', error)
+    } finally {
+      clearTimeout(timeoutId)
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   const handleReset = () => {
@@ -218,6 +236,11 @@ export default function Home() {
             <button type="submit" className="btn-primary w-full touch-target" disabled={isLoading}>
               {isLoading ? 'Mendaftar...' : 'Mulai Belajar'}
             </button>
+            {submitError && (
+              <p className="text-xs sm:text-sm text-orange-700" role="alert" aria-live="polite">
+                {submitError}
+              </p>
+            )}
           </form>
         </div>
       ) : (
