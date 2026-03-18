@@ -1,6 +1,6 @@
 # PAO FINATRA E-Learning Platform
 
-Platform pelatihan online untuk Partnership Account Officer (PAO) FINATRA dengan fitur lengkap: modul pembelajaran, quiz interaktif, progress tracking, dan admin dashboard.
+Platform pelatihan online untuk Partnership Account Officer (PAO) FINATRA dengan fitur lengkap: modul pembelajaran, quiz interaktif, dan progress tracking.
 
 ## 🚀 Fitur Utama
 
@@ -10,42 +10,28 @@ Platform pelatihan online untuk Partnership Account Officer (PAO) FINATRA dengan
 - **Post-Test Interaktif** (5 soal) dengan feedback langsung
 - **Sertifikasi Digital** - status LULUS/REMEDIAL
 
-### Untuk Admin
-- **Dashboard Statistik** - overview pelatihan real-time
-- **Export Excel** - download hasil pelatihan dalam format .xlsx
-- **Monitoring Peserta** - lihat progress dan hasil quiz per peserta
-
 ## 🛠 Tech Stack
 
 - **Framework:** Next.js 14 (App Router)
-- **Database:** SQLite + Prisma ORM
+- **Data Storage:** In-memory API state + browser localStorage
 - **Styling:** Tailwind CSS
-- **Export:** xlsx (Excel)
 
 ## 📁 Struktur Project
 
 ```
 pao-elearning/
-├── prisma/
-│   ├── schema.prisma    # Database schema
-│   └── seed.ts          # Seed data (4 modules + 5 questions)
 ├── src/
 │   ├── app/
 │   │   ├── api/         # Backend API routes
 │   │   │   ├── participants/  # CRUD peserta
 │   │   │   ├── quiz/          # Get questions & Submit answers
 │   │   │   ├── progress/      # Track learning progress
-│   │   │   ├── admin/         # Dashboard stats
-│   │   │   └── admin/export/  # Export to Excel
 │   │   ├── bab/[slug]/  # Module pages (Bab 1-4)
 │   │   ├── quiz/        # Quiz page
-│   │   ├── admin/       # Admin dashboard
 │   │   ├── page.tsx     # Home page
 │   │   ├── layout.tsx   # Root layout
 │   │   └── globals.css  # Global styles
-│   ├── components/      # React components
-│   └── lib/
-│       └── prisma.ts    # Database client
+│   └── components/      # React components
 ├── .env                 # Environment variables
 └── next.config.mjs      # Next.js config
 ```
@@ -70,13 +56,6 @@ git push -u origin main
 - Environment variables sudah diatur di `.env`
 - Deploy!
 
-3. **Setup Database:**
-```bash
-# Setelah deploy, jalankan di local:
-npx prisma migrate dev
-npm run seed
-```
-
 ### Option 2: Deploy ke VPS/Server
 
 1. **Build project:**
@@ -93,8 +72,6 @@ npm run build
 3. **Setup production:**
 ```bash
 npm install --production
-npx prisma generate
-npx prisma migrate deploy
 npm start
 ```
 
@@ -108,46 +85,16 @@ npm start
 | `/api/quiz` | POST | Submit quiz answers |
 | `/api/progress` | POST | Update module progress |
 | `/api/progress` | GET | Get participant progress |
-| `/api/admin` | GET | Get dashboard stats |
-| `/api/admin/export` | GET | Export to Excel |
 
-## 💾 Database Schema
+## 💾 Data Storage
 
-```prisma
-Participant {
-  id, nama, cabang, email, createdAt
-  results: QuizResult[]
-  progress: Progress
-}
-
-Module {
-  id, title, slug, description, content, order, color
-  questions: Question[]
-}
-
-Question {
-  id, moduleId, question, options, correct, explanation, order
-}
-
-QuizResult {
-  id, participantId, score, total, percentage, answers, status
-}
-
-Progress {
-  id, participantId, modulesRead, percent
-}
-```
+Data peserta/progress disimpan dalam state API runtime dan browser localStorage. Data ini tidak menggunakan database eksternal.
 
 ## 📝 Development
 
 ```bash
 # Install dependencies
 npm install
-
-# Setup database
-npx prisma generate
-npx prisma db push
-npm run seed
 
 # Run dev server
 npm run dev
@@ -166,7 +113,6 @@ Platform menggunakan design system yang konsisten:
 ## 🔒 Environment Variables
 
 ```env
-DATABASE_URL="file:./dev.db"
 NEXTAUTH_SECRET="your-secret-key"
 NEXTAUTH_URL="http://localhost:3000"
 ```
