@@ -1,0 +1,1035 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{max-width:780px;padding:2rem 1rem 4rem;font-family:var(--font-sans)}
+p{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:.9rem}
+p:last-child{margin-bottom:0}
+strong{font-weight:500;color:var(--color-text-primary)}
+em{font-style:italic;color:var(--color-text-primary)}
+
+/* HERO */
+.hero{border-radius:16px;padding:2rem 2rem 1.75rem;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);margin-bottom:2rem}
+.hero-tag{font-size:10px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px}
+.hero-h{font-size:30px;font-weight:500;color:var(--color-text-primary);line-height:1.15;margin-bottom:8px}
+.hero-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.75;margin-bottom:1.25rem;max-width:540px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary)}
+
+/* KPI */
+.kpi-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:2rem}
+.kc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:.9rem 1rem;position:relative;overflow:hidden}
+.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:2px 2px 0 0}
+.kc-b1::before{background:#378ADD}.kc-b2::before{background:#1D9E75}.kc-b3::before{background:#BA7517}.kc-b4::before{background:#D4537E}
+.kc-l{font-size:11px;color:var(--color-text-secondary);margin:6px 0 4px}
+.kc-v{font-size:19px;font-weight:500;color:var(--color-text-primary)}
+.kc-d{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+
+/* PROGRESS */
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:1.75rem;padding:.8rem 1.1rem;background:var(--color-background-secondary);border-radius:10px;border:0.5px solid var(--color-border-tertiary)}
+.prog-l{font-size:12px;color:var(--color-text-secondary);white-space:nowrap}
+.prog-tr{flex:1;height:5px;background:var(--color-background-primary);border-radius:3px;overflow:hidden;border:0.5px solid var(--color-border-tertiary)}
+.prog-fi{height:100%;border-radius:3px;background:#378ADD;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.prog-ct{font-size:12px;font-weight:500;color:var(--color-text-primary);white-space:nowrap}
+
+/* BAB */
+.bab{border:0.5px solid var(--color-border-tertiary);border-radius:14px;background:var(--color-background-primary);overflow:hidden;margin-bottom:10px;transition:border-color .2s}
+.bab:hover{border-color:var(--color-border-secondary)}
+.bab.open{border-color:var(--color-border-secondary)}
+.bab-hd{padding:1.1rem 1.25rem;cursor:pointer;display:flex;gap:14px;align-items:center}
+.bab-str{width:4px;border-radius:2px;align-self:stretch;min-height:44px;flex-shrink:0}
+.bab-inf{flex:1}
+.bab-no{font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+.bab-ti{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.bab-su{font-size:12px;color:var(--color-text-secondary)}
+.bab-ri{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.dbadge{font-size:10px;font-weight:500;padding:2px 9px;border-radius:10px;background:var(--color-background-success);color:var(--color-text-success);display:none}
+.dbadge.on{display:inline-block}
+.chev{width:24px;height:24px;border-radius:50%;border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--color-text-secondary);transition:transform .25s}
+.bab.open .chev{transform:rotate(180deg)}
+.bab-bd{display:none;border-top:0.5px solid var(--color-border-tertiary);padding:1.75rem 1.5rem}
+.bab.open .bab-bd{display:block}
+
+/* SUB-SECTION */
+.sub{margin-bottom:2rem}
+.sub:last-child{margin-bottom:0}
+.sub-title{font-size:11px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.sub-title::after{content:'';flex:1;height:0.5px;background:var(--color-border-tertiary)}
+
+/* THEORY */
+.theory{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:1.1rem;display:flex;gap:12px;margin-bottom:1.5rem}
+.t-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.t-bd{flex:1}
+.t-ey{font-size:10px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:5px}
+.t-tx{font-size:13px;color:var(--color-text-primary);line-height:1.75}
+
+/* ID CARDS */
+.id3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:1.25rem}
+.idc{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.9rem;transition:border-color .15s}
+.idc:hover{border-color:var(--color-border-secondary)}
+.idc-ic{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;margin-bottom:9px}
+.idc-t{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.idc-d{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;margin-bottom:1.25rem;font-size:13px}
+.tbl th{padding:.6rem .9rem;font-weight:500;font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.tbl td{padding:.7rem .9rem;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;line-height:1.65;color:var(--color-text-secondary)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td:first-child{font-weight:500;color:var(--color-text-primary)}
+.good{color:#3B6D11!important}.bad{color:#A32D2D!important}.warn-c{color:#854F0B!important}
+
+/* POINT ROW */
+.pt{display:flex;gap:12px;align-items:flex-start;padding:.85rem 1rem;border:0.5px solid var(--color-border-tertiary);border-radius:10px;margin-bottom:8px;transition:background .12s}
+.pt:last-child{margin-bottom:0}
+.pt:hover{background:var(--color-background-secondary)}
+.pt-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:1px}
+.pt-b{flex:1}
+.pt-t{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.pt-d{font-size:13px;color:var(--color-text-secondary);line-height:1.65}
+.pt-tags{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:8px}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
+.stp{display:flex;gap:12px;align-items:flex-start;padding:.85rem 1rem;border:0.5px solid var(--color-border-tertiary);border-radius:10px}
+.stp-n{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:1px}
+.stp-c .st{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.stp-c .sd{font-size:13px;color:var(--color-text-secondary);line-height:1.65}
+
+/* MATRIX */
+.mx{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.mxc{padding:.9rem 1rem;border-radius:10px;position:relative}
+.mx-badge{position:absolute;top:9px;right:9px;font-size:10px;font-weight:500;padding:2px 7px;border-radius:8px}
+.mx-t{font-size:13px;font-weight:500;margin-bottom:5px;margin-right:55px}
+.mx-d{font-size:12px;line-height:1.55}
+.mx-list{margin-top:6px;display:flex;flex-direction:column;gap:3px}
+.mx-list span{font-size:11px;opacity:.85}
+
+/* FUNNEL */
+.funnel{display:flex;flex-direction:column;gap:5px;margin-bottom:1.25rem}
+.fn-r{display:flex;align-items:center;gap:10px}
+.fn-l{width:90px;font-size:12px;color:var(--color-text-secondary);text-align:right;flex-shrink:0}
+.fn-tr{flex:1;height:38px;background:var(--color-background-secondary);border-radius:8px;overflow:hidden}
+.fn-bar{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:12px;font-size:12px;font-weight:500}
+.fn-p{width:38px;font-size:12px;color:var(--color-text-secondary);flex-shrink:0}
+
+/* SCREENING GRID */
+.sc2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.scc{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.9rem 1rem}
+.scc-hd{display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
+.scc-ic{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500}
+.scc-t{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.scc-ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.scc-ul li{font-size:12px;color:var(--color-text-secondary);line-height:1.55;display:flex;gap:7px}
+.scc-ul li::before{content:'→';color:var(--color-text-secondary);flex-shrink:0}
+
+/* RISK */
+.risk2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.riskc{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.9rem 1rem}
+.risk-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.risk-lbl{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.risk-sub-l{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+.risk-val{font-size:24px;font-weight:500}
+.risk-tr{height:6px;background:var(--color-background-secondary);border-radius:3px;margin-bottom:8px;overflow:hidden}
+.risk-fi{height:100%;border-radius:3px}
+.risk-m{font-size:12px;color:var(--color-text-secondary);line-height:1.55;padding-top:6px;border-top:0.5px solid var(--color-border-tertiary)}
+
+/* WARN LIST */
+.warns{display:flex;flex-direction:column;gap:7px;margin-bottom:1.25rem}
+.wi{display:flex;gap:10px;padding:.8rem .95rem;border-radius:10px;border:0.5px solid #F7C1C1;background:#FCEBEB}
+.w-dot{width:6px;height:6px;border-radius:50%;background:#E24B4A;flex-shrink:0;margin-top:6px}
+.w-t{font-size:13px;font-weight:500;color:#791F1F;margin-bottom:3px}
+.w-d{font-size:12px;color:#A32D2D;line-height:1.55}
+
+/* HL BOX */
+.hl{border-radius:10px;padding:.9rem 1.1rem;font-size:13px;line-height:1.75;border-left:3px solid;margin-bottom:8px}
+.hl:last-child{margin-bottom:0}
+
+/* EXAMPLE */
+.ex{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.85rem;background:var(--color-background-secondary)}
+.ex-tag{font-size:10px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:6px}
+.ex-body{font-size:13px;color:var(--color-text-primary);line-height:1.75}
+.ex-body span{color:var(--color-text-secondary)}
+
+/* CHECKLIST */
+.ckl{display:flex;flex-direction:column;gap:6px;margin-bottom:1.25rem}
+.cli{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--color-text-secondary);line-height:1.65}
+.cli-b{width:16px;height:16px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:2px}
+
+/* GOAL BAR */
+.gbar{display:flex;align-items:center;gap:12px;padding:.75rem 1rem;border:0.5px solid var(--color-border-tertiary);border-radius:10px;margin-bottom:7px}
+.gb-l{font-size:13px;color:var(--color-text-secondary);flex:1}
+.gb-tr{flex:1;height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.gb-fi{height:100%;border-radius:3px}
+.gb-v{font-size:13px;font-weight:500;color:var(--color-text-primary);flex-shrink:0;width:60px;text-align:right}
+
+/* DIG GRID */
+.dg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:1.25rem}
+.dgc{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.9rem;text-align:center}
+.dgc-i{font-size:22px;margin-bottom:7px}
+.dgc-t{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.dgc-d{font-size:11px;color:var(--color-text-secondary);line-height:1.55}
+
+/* INSIGHT */
+.insight{background:var(--color-background-secondary);border-left:3px solid #378ADD;border-radius:0 10px 10px 0;padding:1rem 1.25rem;font-size:13px;color:var(--color-text-primary);line-height:1.8;margin-top:1.5rem}
+
+/* PROFILING TIERS */
+.tier{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
+.tier-item{display:flex;gap:12px;padding:.9rem 1rem;border-radius:10px;border:0.5px solid var(--color-border-tertiary);transition:background .12s}
+.tier-item:hover{background:var(--color-background-secondary)}
+.tier-badge{min-width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.tier-body{flex:1}
+.tier-t{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.tier-d{font-size:13px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:5px}
+.tier-tags{display:flex;gap:4px;flex-wrap:wrap}
+
+/* MATURITY LEVEL */
+.ml-wrap{display:flex;gap:0;border:0.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;margin-bottom:1.25rem}
+.ml-col{flex:1;padding:.9rem .85rem;border-right:0.5px solid var(--color-border-tertiary)}
+.ml-col:last-child{border-right:none}
+.ml-h{font-size:11px;font-weight:500;margin-bottom:.6rem;text-align:center;padding:.3rem;border-radius:6px}
+.ml-ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.ml-ul li{font-size:12px;color:var(--color-text-secondary);line-height:1.5;display:flex;gap:6px}
+.ml-ul li::before{content:'·';flex-shrink:0;font-size:16px;line-height:1;color:var(--color-text-secondary)}
+
+/* KPILINK */
+.kpilink{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:1.25rem}
+.kpil{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.85rem 1rem;display:flex;gap:10px}
+.kpil-bar{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0}
+.kpil-b{flex:1}
+.kpil-t{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.kpil-d{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.kpil-v{font-size:17px;font-weight:500;margin-top:4px}
+
+/* SCRIPT BOX */
+.script{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:1rem 1.1rem;background:var(--color-background-secondary);margin-bottom:.85rem}
+.script-tag{font-size:10px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:6px}
+.script-q{font-size:13px;color:var(--color-text-primary);line-height:1.75;font-style:italic}
+.script-a{font-size:12px;color:var(--color-text-secondary);margin-top:6px;line-height:1.65}
+
+/* TAKEAWAY */
+.tw{border-radius:14px;padding:2rem;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);text-align:center;margin-top:2rem}
+.tw-t{font-size:15px;font-weight:500;color:var(--color-text-primary);line-height:1.75;font-style:italic;margin-bottom:8px}
+.tw-s{font-size:12px;color:var(--color-text-secondary)}
+</style>
+
+<div class="root">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">FINATRA · Modul Pelatihan Resmi PAO · 2025</div>
+  <div class="hero-h">Strategic Partnership<br>Account Officer</div>
+  <div class="hero-sub">Panduan ultra-lengkap berbasis KPI — teori akademik, strategi lapangan, contoh nyata, skrip percakapan, framework operasional, dan indikator kematangan profesional PAO.</div>
+  <div class="pills">
+    <span class="pill">4 Bab Materi</span>
+    <span class="pill">Teori Akademik</span>
+    <span class="pill">Contoh Lapangan</span>
+    <span class="pill">Skrip Percakapan</span>
+    <span class="pill">Framework Praktis</span>
+    <span class="pill">Checklist Operasional</span>
+    <span class="pill">KPI Breakdown</span>
+    <span class="pill">Maturity Level</span>
+  </div>
+</div>
+
+<!-- KPI -->
+<div class="kpi-g">
+  <div class="kc kc-b1"><div class="kc-l">AF Partnership</div><div class="kc-v">Rp 300 Jt</div><div class="kc-d">Target pencairan/bulan</div></div>
+  <div class="kc kc-b2"><div class="kc-l">Komunitas Aktif</div><div class="kc-v">35%</div><div class="kc-d">Rutin kirim leads</div></div>
+  <div class="kc kc-b3"><div class="kc-l">Leads to Order</div><div class="kc-v">50%</div><div class="kc-d">5 dari 10 leads layak</div></div>
+  <div class="kc kc-b4"><div class="kc-l">R1 / R3M</div><div class="kc-v">5% / 25%</div><div class="kc-d">Batas tunggak maks.</div></div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog">
+  <span class="prog-l">Progress membaca</span>
+  <div class="prog-tr"><div class="prog-fi" id="pf" style="width:0%"></div></div>
+  <span class="prog-ct" id="pc">0 / 4 bab</span>
+</div>
+
+<!-- ==================== BAB 1 ==================== -->
+<div class="bab" id="b1">
+  <div class="bab-hd" onclick="tb('b1')">
+    <div class="bab-str" style="background:#378ADD"></div>
+    <div class="bab-inf">
+      <div class="bab-no" style="color:#378ADD">Bab 1</div>
+      <div class="bab-ti">Positioning — Siapa Saya Sebenarnya?</div>
+      <div class="bab-su">Role Identity · Mindset PAO · 3 Identitas Profesional · PAO vs Sales · Maturity Level · Contoh Lapangan · Skrip Pendekatan</div>
+    </div>
+    <div class="bab-ri"><span class="dbadge" id="db1">✓ Selesai</span><div class="chev">▼</div></div>
+  </div>
+  <div class="bab-bd">
+
+    <div class="theory">
+      <div class="t-dot" style="background:#378ADD;margin-top:6px"></div>
+      <div class="t-bd">
+        <div class="t-ey">Landasan Teori — Role Identity Theory (Stryker & Burke)</div>
+        <div class="t-tx">Seseorang memiliki banyak identitas sosial yang berhierarkhi. Identitas dengan <em>salience</em> (kemenonjolan) tinggi akan memandu perilaku dalam situasi apapun. Ketika PAO memiliki identitas kuat sebagai "manajer ekosistem komunitas", bukan "sales harian", ia secara otomatis akan membuat keputusan yang lebih strategis, membangun relasi lebih dalam, dan menghasilkan portofolio lebih sehat — bahkan tanpa harus selalu diingatkan oleh atasan.</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Mengapa Positioning Adalah Fondasi Segalanya</div>
+      <p>Sebelum berbicara tentang teknik, target, atau KPI — seorang PAO harus menjawab satu pertanyaan mendasar: <em>siapa saya dalam ekosistem ini?</em> Jawaban atas pertanyaan ini akan menentukan segalanya: cara kamu membuka percakapan, cara kamu menangani penolakan, cara kamu menjaga komunitas, dan cara kamu membaca angka KPI.</p>
+      <p>PAO yang memandang dirinya sebagai "sales yang harus ngejar target" akan selalu stres, reactive, dan mudah menyerah ketika komunitas tidak langsung memberikan leads. PAO yang memandang dirinya sebagai "manajer portofolio berbasis komunitas" akan sabar membangun fondasi, karena ia tahu hasilnya akan berlipat ganda dalam waktu yang tidak terlalu lama.</p>
+
+      <div class="id3">
+        <div class="idc">
+          <div class="idc-ic" style="background:#E6F1FB;color:#185FA5">SP</div>
+          <div class="idc-t">Strategic Partner</div>
+          <div class="idc-d">Membangun kolam leads melalui jaringan komunitas. Bukan berburu satu per satu setiap hari.</div>
+        </div>
+        <div class="idc">
+          <div class="idc-ic" style="background:#E1F5EE;color:#0F6E56">BB</div>
+          <div class="idc-t">Bridge Builder</div>
+          <div class="idc-d">Jembatan FINATRA dan masyarakat. Kepercayaan komunitas kepada perusahaan dimulai dari kepercayaan mereka kepadamu.</div>
+        </div>
+        <div class="idc">
+          <div class="idc-ic" style="background:#FAEEDA;color:#854F0B">QC</div>
+          <div class="idc-t">Quality Controller</div>
+          <div class="idc-d">Filter karakter dan kapasitas. Setiap nama yang masuk adalah hasil seleksi, bukan sekadar angka.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Perbandingan Lengkap: Sales Tradisional vs PAO</div>
+      <table class="tbl">
+        <tr><th>Dimensi</th><th>Sales Tradisional</th><th>PAO Strategic</th></tr>
+        <tr><td>Model kerja</td><td class="bad">Door-to-door, linear</td><td class="good">Network-based, eksponensial</td></tr>
+        <tr><td>Sumber leads</td><td class="bad">Tenaga sendiri setiap hari</td><td class="good">Mitra komunitas yang aktif mengirim</td></tr>
+        <tr><td>Ketika libur/cuti</td><td class="bad">Leads berhenti total</td><td class="good">Komunitas tetap menghasilkan</td></tr>
+        <tr><td>Kualitas nasabah</td><td class="bad">Tidak terfilter, R1 tinggi</td><td class="good">Sudah direkomendasikan, R1 rendah</td></tr>
+        <tr><td>Hubungan nasabah</td><td class="bad">Transaksional, putus setelah cair</td><td class="good">Relasional, nasabah loyal & referral</td></tr>
+        <tr><td>Risiko kredit</td><td class="bad">Tinggi — karakter tidak dikenal</td><td class="good">Rendah — ada kontrol sosial komunitas</td></tr>
+        <tr><td>Skalabilitas</td><td class="bad">Terbatas kapasitas personal</td><td class="good">Skalabel melalui jaringan komunitas</td></tr>
+        <tr><td>Burnout risk</td><td class="bad">Tinggi — energi habis di prospecting</td><td class="good">Rendah — energi untuk relasi strategis</td></tr>
+        <tr><td>Pendekatan mitra</td><td class="bad">Tidak ada, langsung ke nasabah</td><td class="good">Bangun hubungan dengan Gatekeeper dulu</td></tr>
+        <tr><td>Ketika ada macet</td><td class="bad">Harus kejar sendiri</td><td class="good">Mitra komunitas membantu mengingatkan</td></tr>
+      </table>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Studi Kasus Nyata di Lapangan</div>
+      <div class="ex">
+        <div class="ex-tag">Kasus A — PAO dengan mindset sales tradisional</div>
+        <div class="ex-body">Dani bekerja keras setiap hari. Ia mengunjungi 15–20 rumah per hari, membagikan brosur, menawarkan pinjaman langsung. <span>Dalam sebulan, ia berhasil mengumpulkan 40 leads. Tapi dari 40 leads itu, hanya 12 yang lolos screening dan 7 yang akhirnya cair. R1-nya 15% karena ia tidak sempat memverifikasi karakter setiap calon. Di bulan berikutnya, ia harus memulai dari nol lagi.</span></div>
+      </div>
+      <div class="ex">
+        <div class="ex-tag">Kasus B — PAO dengan mindset strategic partner</div>
+        <div class="ex-body">Sari memilih 5 RT/RW dengan UMKM aktif dan membangun hubungan dengan ketua masing-masing selama 3 minggu pertama. <span>Di bulan kedua, 4 dari 5 ketua mulai aktif mengirim referral. Total 38 leads masuk, 21 lolos screening, 17 cair. R1-nya 2%. Di bulan ketiga, tanpa tambahan komunitas baru, ia mendapat 45 leads karena ketua mulai merekomendasikan ke komunitas tetangga.</span> Sistem sudah berjalan sendiri.</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Maturity Level PAO — Kamu Ada di Level Mana?</div>
+      <div class="ml-wrap">
+        <div class="ml-col">
+          <div class="ml-h" style="background:#FCEBEB;color:#791F1F">Level 1 — Pemula</div>
+          <ul class="ml-ul">
+            <li>Masih fokus door-to-door</li>
+            <li>Belum punya komunitas aktif</li>
+            <li>Leads to Order di bawah 30%</li>
+            <li>R1 sering di atas 10%</li>
+            <li>Tidak rutin isi digital form</li>
+          </ul>
+        </div>
+        <div class="ml-col">
+          <div class="ml-h" style="background:#FAEEDA;color:#854F0B">Level 2 — Berkembang</div>
+          <ul class="ml-ul">
+            <li>Sudah punya 3–5 komunitas</li>
+            <li>Mulai rutin kunjungi mitra</li>
+            <li>Leads to Order 30–45%</li>
+            <li>R1 antara 5–8%</li>
+            <li>Isi form tapi tidak konsisten</li>
+          </ul>
+        </div>
+        <div class="ml-col">
+          <div class="ml-h" style="background:#EAF3DE;color:#3B6D11">Level 3 — Mature</div>
+          <ul class="ml-ul">
+            <li>Sistem komunitas berjalan sendiri</li>
+            <li>Komunitas aktif ≥35% dari total</li>
+            <li>Leads to Order konsisten ≥50%</li>
+            <li>R1 selalu di bawah 5%</li>
+            <li>Mitra aktif monitor nasabah</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Value Creator — PAO sebagai Agen Pemberdayaan UMKM</div>
+      <p>Positioning paling kuat yang bisa dimiliki PAO adalah sebagai <em>agen pemberdayaan ekonomi komunitas</em>. Ini bukan sekadar marketing — ini adalah realita. FINATRA hadir untuk membantu UMKM mendapatkan modal yang selama ini sulit diakses melalui perbankan formal.</p>
+      <div class="pt">
+        <div class="pt-ic" style="background:#EAF3DE;color:#3B6D11">1</div>
+        <div class="pt-b">
+          <div class="pt-t">Akses ke modal adalah masalah nyata UMKM Indonesia</div>
+          <div class="pt-d">Lebih dari 64 juta UMKM di Indonesia masih kesulitan mengakses kredit formal. PAO adalah solusi nyata untuk gap ini — membawa akses pembiayaan langsung ke komunitas yang membutuhkan.</div>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="pt-ic" style="background:#E6F1FB;color:#185FA5">2</div>
+        <div class="pt-b">
+          <div class="pt-t">Setiap pencairan = peluang usaha yang terbuka</div>
+          <div class="pt-d">Ketika kamu berhasil memproses seorang nasabah, kamu tidak hanya mencapai angka AF — kamu membantu seseorang mengembangkan usahanya, menjaga lapangan kerja, dan meningkatkan taraf hidup keluarganya.</div>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="pt-ic" style="background:#FBEAF0;color:#993556">3</div>
+        <div class="pt-b">
+          <div class="pt-t">Komunitas yang sehat = ekosistem yang berkelanjutan</div>
+          <div class="pt-d">Nasabah yang usahanya berkembang akan kembali mengajukan pinjaman lebih besar, merekomendasikan kerabat, dan menjadi aset jangka panjang. Satu komunitas yang dirawat baik bisa menghasilkan value bertahun-tahun.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Skrip Pembuka — Cara Memperkenalkan Diri yang Tepat</div>
+      <div class="script">
+        <div class="script-tag">❌ Cara yang salah (mindset sales)</div>
+        <div class="script-q">"Selamat pagi Pak/Bu, saya dari FINATRA. Kami punya produk pinjaman dengan bunga rendah. Apakah Bapak/Ibu atau anggota RT sini ada yang butuh pinjaman?"</div>
+        <div class="script-a">Masalah: langsung menawarkan produk, terdengar seperti sales biasa. Resistensi tinggi, kemungkinan besar ditolak atau tidak ditanggapi serius.</div>
+      </div>
+      <div class="script">
+        <div class="script-tag">✓ Cara yang benar (mindset strategic partner)</div>
+        <div class="script-q">"Selamat pagi Pak RT, saya [Nama] dari FINATRA. Kami sedang program kemitraan dengan komunitas UMKM di wilayah ini — tujuannya membantu warga yang punya usaha untuk lebih mudah akses modal. Boleh saya ceritakan sedikit dan minta masukan dari Bapak soal kondisi usaha warga di sini?"</div>
+        <div class="script-a">Kenapa lebih baik: datang untuk mendengarkan dan berkolaborasi, bukan menawarkan. Menempatkan Ketua RT sebagai partner strategis, bukan target. Membuka ruang diskusi yang produktif.</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      Identitas profesional yang kuat adalah kompas yang mengarahkan setiap keputusan harian. Ketika kamu tahu kamu adalah seorang manajer ekosistem, bukan sekedar sales harian, kamu akan selalu memilih tindakan yang membangun sistem — bukan hanya mengejar angka jangka pendek.
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BAB 2 ==================== -->
+<div class="bab" id="b2">
+  <div class="bab-hd" onclick="tb('b2')">
+    <div class="bab-str" style="background:#1D9E75"></div>
+    <div class="bab-inf">
+      <div class="bab-no" style="color:#1D9E75">Bab 2</div>
+      <div class="bab-ti">Hunting & Mapping Komunitas</div>
+      <div class="bab-su">Social Capital Theory · Bonding vs Bridging · Community Matrix · Gatekeeper · Kriteria Gold Community · Lobbying 5 Langkah · Target 35% · Digital Mapping</div>
+    </div>
+    <div class="bab-ri"><span class="dbadge" id="db2">✓ Selesai</span><div class="chev">▼</div></div>
+  </div>
+  <div class="bab-bd">
+
+    <div class="theory">
+      <div class="t-dot" style="background:#1D9E75;margin-top:6px"></div>
+      <div class="t-bd">
+        <div class="t-ey">Landasan Teori — Social Capital Theory (Robert Putnam, 1995)</div>
+        <div class="t-tx">Modal sosial adalah jaringan kepercayaan, norma, dan jaringan sosial yang memfasilitasi koordinasi dan kerjasama demi manfaat bersama. Putnam membedakan dua jenis: <em>Bonding capital</em> (kepercayaan dalam kelompok homogen yang solid) dan <em>Bridging capital</em> (kepercayaan lintas kelompok yang beragam). Bagi PAO: komunitas dengan bonding capital tinggi (RT/RW, koperasi) adalah target primer karena trust sudah ada — tinggal dimanfaatkan melalui figur Gatekeeper.</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Mengapa Komunitas — Bukan Individu — adalah Unit Kerja PAO</div>
+      <p>Ketika PAO mendekati individu satu per satu, ia harus membangun kepercayaan dari nol setiap kali. Ini membutuhkan waktu, energi, dan tidak scalable. Ketika PAO mendekati komunitas melalui pemimpinnya, ia mendapatkan akses sekaligus ke seluruh jaringan kepercayaan yang sudah ada di dalam komunitas tersebut.</p>
+      <p>Satu Ketua RT yang percaya kepada kamu = puluhan anggota yang berpotensi mempercayai FINATRA berdasarkan kepercayaan mereka kepada ketuanya. Inilah yang disebut <em>Trust Transfer</em> — mekanisme paling efisien dalam akuisisi nasabah berbasis komunitas.</p>
+
+      <div class="pt">
+        <div class="pt-ic" style="background:#E1F5EE;color:#0F6E56">Bn</div>
+        <div class="pt-b">
+          <div class="pt-t">Bonding Capital — Komunitas Solid (Prioritas Utama)</div>
+          <div class="pt-d">RT/RW, Koperasi, Paguyuban Pedagang Pasar, Arisan PKK, Kelompok Tani. Anggota sudah saling kenal, saling percaya, dan ada norma sosial yang mengatur perilaku. Leads dari sini punya karakter yang lebih terverifikasi secara sosial.</div>
+          <div class="pt-tags">
+            <span class="tag" style="background:#E1F5EE;color:#085041">Trust sudah ada</span>
+            <span class="tag" style="background:#EAF3DE;color:#3B6D11">R1 rendah</span>
+            <span class="tag" style="background:#E6F1FB;color:#185FA5">Konversi tinggi</span>
+            <span class="tag" style="background:#FAEEDA;color:#854F0B">Langsung eksekusi</span>
+          </div>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="pt-ic" style="background:#FAEEDA;color:#854F0B">Br</div>
+        <div class="pt-b">
+          <div class="pt-t">Bridging Capital — Komunitas Baru (Investasi Jangka Menengah)</div>
+          <div class="pt-d">UMKM cluster baru, komunitas online yang belum kenal FINATRA, organisasi kemasyarakatan yang belum pernah disentuh kompetitor. Butuh 4–8 minggu edukasi sebelum menghasilkan leads, tapi potensi jangka panjangnya sangat besar dan bisa menjadi keunggulan eksklusif PAO.</div>
+          <div class="pt-tags">
+            <span class="tag" style="background:#FAEEDA;color:#854F0B">Butuh edukasi dulu</span>
+            <span class="tag" style="background:#E6F1FB;color:#185FA5">Potensi besar</span>
+            <span class="tag" style="background:#EAF3DE;color:#3B6D11">Sedikit kompetitor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Kriteria Gold Community — 8 Poin Seleksi</div>
+      <div class="ckl">
+        <div class="cli"><div class="cli-b" style="background:#EAF3DE;color:#3B6D11">✓</div>Ada perputaran uang harian — pedagang, warung, jasa, bengkel, atau usaha produktif lainnya</div>
+        <div class="cli"><div class="cli-b" style="background:#EAF3DE;color:#3B6D11">✓</div>Memiliki pemimpin yang aktif, dipercaya, dan mudah ditemui (Ketua RT, Kades, Pengurus Koperasi)</div>
+        <div class="cli"><div class="cli-b" style="background:#EAF3DE;color:#3B6D11">✓</div>Anggota berusia produktif (25–55 tahun) dengan mayoritas sudah memiliki usaha yang berjalan</div>
+        <div class="cli"><div class="cli-b" style="background:#EAF3DE;color:#3B6D11">✓</div>Ada kegiatan rutin komunitas (rapat RT, arisan, pengajian, pertemuan koperasi) — memudahkan sosialisasi sekaligus</div>
+        <div class="cli"><div class="cli-b" style="background:#EAF3DE;color:#3B6D11">✓</div>Belum atau jarang dijangkau kompetitor fintech/leasing lain — blue ocean opportunity</div>
+        <div class="cli"><div class="cli-b" style="background:#EAF3DE;color:#3B6D11">✓</div>Komunitas memiliki rasa kebersamaan yang kuat — anggota saling peduli dan saling mengingatkan</div>
+        <div class="cli"><div class="cli-b" style="background:#EAF3DE;color:#3B6D11">✓</div>Ketua komunitas tidak memiliki konflik kepentingan (tidak aktif di leasing kompetitor)</div>
+        <div class="cli"><div class="cli-b" style="background:#EAF3DE;color:#3B6D11">✓</div>Lokasi terjangkau — dapat dikunjungi rutin 2x/bulan tanpa memakan terlalu banyak waktu perjalanan</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Community Mapping Matrix — Prioritasi yang Tepat</div>
+      <div class="mx">
+        <div class="mxc" style="background:#EAF3DE;color:#27500A">
+          <div class="mx-badge" style="background:#3B6D11;color:#fff">🥇 Prioritas 1</div>
+          <div class="mx-t">High Potential + High Trust</div>
+          <div class="mx-d">RT/RW dengan UMKM aktif dan ketua yang terbuka. Eksekusi sekarang.</div>
+          <div class="mx-list">
+            <span>→ Kunjungi minggu ini</span>
+            <span>→ Target leads bulan ini</span>
+            <span>→ Potensi AF tertinggi</span>
+          </div>
+        </div>
+        <div class="mxc" style="background:#FAEEDA;color:#633806">
+          <div class="mx-badge" style="background:#BA7517;color:#fff">🥈 Prioritas 2</div>
+          <div class="mx-t">High Potential + Low Trust</div>
+          <div class="mx-d">Komunitas besar, belum kenal FINATRA. Mulai edukasi sekarang.</div>
+          <div class="mx-list">
+            <span>→ Kunjungi 2–3x sebelum minta leads</span>
+            <span>→ Target leads bulan 2</span>
+            <span>→ Butuh skrip edukasi khusus</span>
+          </div>
+        </div>
+        <div class="mxc" style="background:#E6F1FB;color:#185FA5">
+          <div class="mx-badge" style="background:#378ADD;color:#fff">🥉 Prioritas 3</div>
+          <div class="mx-t">Low Potential + High Trust</div>
+          <div class="mx-d">Kecil tapi sudah percaya. Kelola efisien, jangan diabaikan.</div>
+          <div class="mx-list">
+            <span>→ Kunjungan 1x/bulan cukup</span>
+            <span>→ Leads volume kecil tapi kualitas baik</span>
+            <span>→ Bisa jadi referral ke komunitas lain</span>
+          </div>
+        </div>
+        <div class="mxc" style="background:#FCEBEB;color:#791F1F">
+          <div class="mx-badge" style="background:#E24B4A;color:#fff">⏸ Tunda</div>
+          <div class="mx-t">Low Potential + Low Trust</div>
+          <div class="mx-d">ROI sangat rendah. Fokus ke prioritas lebih tinggi dulu.</div>
+          <div class="mx-list">
+            <span>→ Review ulang setelah 3 bulan</span>
+            <span>→ Masuk daftar cadangan saja</span>
+            <span>→ Jangan habiskan energi di sini</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">The Gatekeeper Effect — Teknik Lobbying 5 Langkah</div>
+      <p>Ketua Komunitas adalah <em>Gatekeeper</em> — pemegang kunci akses ke seluruh jaringan kepercayaan komunitasnya. Satu Gatekeeper yang pro-FINATRA bisa membuka pintu untuk puluhan hingga ratusan nasabah berkualitas. Berikut teknik pendekatan yang terbukti efektif:</p>
+      <div class="steps">
+        <div class="stp">
+          <div class="stp-n" style="background:#E1F5EE;color:#085041">1</div>
+          <div class="stp-c">
+            <div class="st">Pertemuan pertama — datang untuk mendengar, bukan menawarkan</div>
+            <div class="sd">Tujuan pertemuan pertama adalah membangun rapport, bukan closing. Tanyakan: "Apa tantangan terbesar warga Bapak/Ibu dalam mengembangkan usaha?" dan dengarkan dengan sungguh-sungguh. Catat poin-poin penting untuk dibawa ke pertemuan berikutnya.</div>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-n" style="background:#E1F5EE;color:#085041">2</div>
+          <div class="stp-c">
+            <div class="st">Pertemuan kedua — tawarkan solusi spesifik untuk masalah yang disampaikan</div>
+            <div class="sd">Referensikan poin yang disampaikan di pertemuan pertama: "Bapak/Ibu bilang banyak warga yang butuh modal untuk beli stok barang — nah, FINATRA punya program yang tepat untuk itu." Personalisasi solusi jauh lebih kuat dari penawaran generik.</div>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-n" style="background:#E1F5EE;color:#085041">3</div>
+          <div class="stp-c">
+            <div class="st">Jelaskan benefit konkret bagi komunitas dan ketua</div>
+            <div class="sd">Ketua perlu merasakan manfaat langsung: skema success fee, kemungkinan program CSR untuk komunitas, peningkatan kuota pinjaman bagi komunitas yang performanya baik. Ini membuat kerjasama terasa saling menguntungkan, bukan satu arah.</div>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-n" style="background:#E1F5EE;color:#085041">4</div>
+          <div class="stp-c">
+            <div class="st">Minta waktu sosialisasi di pertemuan rutin komunitas</div>
+            <div class="sd">Minta 15–20 menit di rapat RT, arisan, atau pertemuan koperasi berikutnya. Pastikan Ketua hadir dan membuka dengan endorsement: "Ini mitra kita dari FINATRA yang mau bantu warga yang butuh modal usaha." Endorsement ketua adalah Trust Transfer yang paling kuat.</div>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-n" style="background:#E1F5EE;color:#085041">5</div>
+          <div class="stp-c">
+            <div class="st">Bangun rutinitas kunjungan — jaga hubungan tetap hangat</div>
+            <div class="sd">Minimal 2 kunjungan per bulan. Di kunjungan non-sosialisasi: bawa kabar baik (update nasabah yang usahanya berkembang), tanyakan perkembangan komunitas, atau sekadar silaturahmi. Ketua yang merasa dihargai akan terus aktif merekomendasikan.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Skrip Lobbying — Kata-Kata yang Terbukti Efektif</div>
+      <div class="script">
+        <div class="script-tag">Membuka pertemuan pertama dengan Ketua RT</div>
+        <div class="script-q">"Pak RT, terima kasih sudah mau meluangkan waktu. Saya [Nama] dari FINATRA — kami sedang ekspansi program kemitraan komunitas di wilayah ini. Sebelum saya ceritakan lebih lanjut, boleh saya dengar dulu kondisi warga di RT ini? Khususnya yang punya usaha kecil — apakah ada kendala yang sering mereka hadapi?"</div>
+      </div>
+      <div class="script">
+        <div class="script-tag">Menjelaskan benefit ke ketua di pertemuan kedua</div>
+        <div class="script-q">"Jadi begini Pak RT — kalau ada warga Bapak yang kita bantu dan mereka bayarnya lancar, komunitas RT ini akan masuk kategori mitra premium FINATRA. Artinya kuota dan kemudahan akses untuk warga RT ini akan meningkat. Dan sebagai bentuk apresiasi kerjasama, ada program khusus untuk Bapak sebagai mitra kami."</div>
+      </div>
+      <div class="script">
+        <div class="script-tag">Meminta endorsement di pertemuan komunitas</div>
+        <div class="script-q">"Pak RT, kalau boleh saya minta satu hal — saat Bapak memperkenalkan saya ke warga nanti, bisa disebutkan bahwa ini program yang Bapak sudah tinjau dan rekomendasikan? Kepercayaan warga kepada Bapak akan sangat membantu program ini berjalan baik untuk semua pihak."</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Target 35% Komunitas Aktif — Cara Menghitung & Merawat</div>
+      <div class="hl" style="background:#EAF3DE;color:#27500A;border-color:#639922">
+        <strong>Formula:</strong> (Komunitas yang rutin kirim leads / Total komunitas terdaftar) × 100% ≥ 35%<br>Contoh: PAO dengan 20 komunitas terdaftar → minimal 7 harus aktif setiap bulan.
+      </div>
+      <table class="tbl">
+        <tr><th>Status Komunitas</th><th>Definisi</th><th>Tindakan PAO</th></tr>
+        <tr><td>Aktif</td><td>Kirim ≥1 leads yang diproses per bulan</td><td>Pertahankan kunjungan rutin, berikan feedback positif</td></tr>
+        <tr><td>Semi-aktif</td><td>Pernah kirim leads tapi tidak rutin bulan ini</td><td>Kunjungi segera, tanyakan kendala, revitalisasi hubungan</td></tr>
+        <tr><td>Dormant</td><td>Tidak kirim leads 2+ bulan berturut-turut</td><td>Evaluasi — apakah perlu re-approach atau digantikan komunitas baru</td></tr>
+        <tr><td>Baru</td><td>Baru didaftarkan, belum pernah kirim leads</td><td>Prioritaskan onboarding dan edukasi dalam 30 hari pertama</td></tr>
+      </table>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Digital Mapping Form — Data yang Harus Diisi Per Komunitas</div>
+      <div class="sc2">
+        <div class="scc">
+          <div class="scc-hd"><div class="scc-ic" style="background:#E6F1FB;color:#185FA5">📍</div><div class="scc-t">Data Identitas</div></div>
+          <ul class="scc-ul">
+            <li>Nama komunitas dan jenis (RT/RW/Koperasi/dll)</li>
+            <li>Nama & nomor kontak Ketua</li>
+            <li>Alamat dan wilayah (kelurahan/kecamatan)</li>
+            <li>Estimasi jumlah anggota aktif</li>
+            <li>Jenis usaha dominan anggota</li>
+          </ul>
+        </div>
+        <div class="scc">
+          <div class="scc-hd"><div class="scc-ic" style="background:#EAF3DE;color:#3B6D11">📊</div><div class="scc-t">Data Aktivitas</div></div>
+          <ul class="scc-ul">
+            <li>Tanggal dan hasil kunjungan terakhir</li>
+            <li>Jadwal kunjungan berikutnya</li>
+            <li>Jumlah leads yang sudah dikirim</li>
+            <li>Status kerjasama (aktif/semi/dormant)</li>
+            <li>Catatan khusus dan follow-up</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hl" style="background:#E6F1FB;color:#185FA5;border-color:#378ADD">
+        <strong>Ingat:</strong> Data komunitas adalah aset strategis. Komunitas yang sudah kamu bangun dengan susah payah tidak boleh hanya ada di kepala kamu. Jika kamu pindah atau cuti, sistem harus bisa dilanjutkan oleh orang lain tanpa kehilangan momentum.
+      </div>
+    </div>
+
+    <div class="insight">
+      Satu komunitas aktif yang dirawat dengan baik bisa menghasilkan 8–15 leads per bulan secara konsisten. Dengan 7 komunitas aktif (target 35% dari 20 komunitas), PAO berpotensi mendapatkan 56–105 leads per bulan — lebih dari cukup untuk memenuhi target AF 300 Juta.
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BAB 3 ==================== -->
+<div class="bab" id="b3">
+  <div class="bab-hd" onclick="tb('b3')">
+    <div class="bab-str" style="background:#BA7517"></div>
+    <div class="bab-inf">
+      <div class="bab-no" style="color:#BA7517">Bab 3</div>
+      <div class="bab-ti">Lead Generation & Filtering</div>
+      <div class="bab-su">AIDA Model · Funnel · Framework 2C · Customer Profiling · Edukasi Mitra · Kecepatan Follow-up · Kalkulasi Target · Skrip Screening</div>
+    </div>
+    <div class="bab-ri"><span class="dbadge" id="db3">✓ Selesai</span><div class="chev">▼</div></div>
+  </div>
+  <div class="bab-bd">
+
+    <div class="theory">
+      <div class="t-dot" style="background:#BA7517;margin-top:6px"></div>
+      <div class="t-bd">
+        <div class="t-ey">Landasan Teori — Sales Funnel + Probability Theory + Quality over Quantity</div>
+        <div class="t-tx">Sales Funnel menggambarkan perjalanan prospek dari awareness hingga action. Probability Theory mengatakan: semakin besar probabilitas sukses di setiap tahap, semakin tinggi output akhirnya. Bagi PAO, ini berarti meningkatkan kualitas leads di tahap awal (<em>Filtering at Source</em>) secara dramatis meningkatkan jumlah pencairan aktual di akhir — dengan biaya operasional yang sama atau lebih rendah.</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Visualisasi Funnel PAO — AIDA Model</div>
+      <div class="funnel">
+        <div class="fn-r"><div class="fn-l">A — Awareness</div><div class="fn-tr"><div class="fn-bar" style="width:100%;background:#E6F1FB;color:#185FA5">Sosialisasi — seluruh komunitas</div></div><div class="fn-p">100%</div></div>
+        <div class="fn-r"><div class="fn-l">I — Interest</div><div class="fn-tr"><div class="fn-bar" style="width:72%;background:#FAEEDA;color:#854F0B">Leads yang mau mendaftar</div></div><div class="fn-p">72%</div></div>
+        <div class="fn-r"><div class="fn-l">D — Decision</div><div class="fn-tr"><div class="fn-bar" style="width:50%;background:#F5C4B3;color:#993C1D">Lolos First Screening (target)</div></div><div class="fn-p">50%</div></div>
+        <div class="fn-r"><div class="fn-l">A — Action (AF)</div><div class="fn-tr"><div class="fn-bar" style="width:35%;background:#9FE1CB;color:#085041">Cair — disbursement aktual</div></div><div class="fn-p">35%</div></div>
+      </div>
+      <p style="font-size:12px;color:var(--color-text-secondary);margin-top:-.5rem">*Tahap Decision (Leads to Order) adalah tahap yang paling bisa dikendalikan PAO. Target minimal 50% adalah standar efisiensi operasional FINATRA.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Framework 2C — First Screening yang Efektif</div>
+      <div class="sc2">
+        <div class="scc">
+          <div class="scc-hd"><div class="scc-ic" style="background:#E6F1FB;color:#185FA5">C1</div><div class="scc-t">Cek Karakter</div></div>
+          <ul class="scc-ul">
+            <li>Reputasi di lingkungan — tanya Ketua RT secara langsung</li>
+            <li>Riwayat pinjam-meminjam dengan tetangga/kerabat</li>
+            <li>Keaktifan di kegiatan komunitas (tanda tanggung jawab)</li>
+            <li>Riwayat pembayaran arisan atau cicilan lain</li>
+            <li>Apakah pernah ada konflik keuangan di lingkungan?</li>
+            <li>Bagaimana sikap saat menghadapi kesulitan keuangan sebelumnya?</li>
+          </ul>
+        </div>
+        <div class="scc">
+          <div class="scc-hd"><div class="scc-ic" style="background:#EAF3DE;color:#3B6D11">C2</div><div class="scc-t">Cek Kapasitas</div></div>
+          <ul class="scc-ul">
+            <li>Usaha sudah berjalan minimal 6 bulan (bukan rencana)</li>
+            <li>Ada bukti fisik — toko, lapak, peralatan kerja, stok barang</li>
+            <li>Ada cashflow harian yang bisa diestimasi</li>
+            <li>Tujuan pinjaman produktif (modal kerja/ekspansi)</li>
+            <li>Rasio cicilan vs pendapatan wajar (maks. 30% pendapatan)</li>
+            <li>Tidak sedang memiliki cicilan lain yang memberatkan</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Customer Profiling — 3 Tipe Nasabah & Cara Penanganan</div>
+      <div class="tier">
+        <div class="tier-item">
+          <div class="tier-badge" style="background:#EAF3DE;color:#3B6D11">A</div>
+          <div class="tier-body">
+            <div class="tier-t">Tipe Ideal — Fast Track, Prioritaskan</div>
+            <div class="tier-d">UMKM berjalan 1+ tahun dengan omzet stabil, reputasi sangat baik di komunitas, tujuan pinjaman jelas untuk modal kerja atau ekspansi, memiliki rekening aktif dan riwayat transaksi yang bisa diverifikasi. Cicilan ≤25% dari estimasi pendapatan bulanan.</div>
+            <div class="tier-tags">
+              <span class="tag" style="background:#EAF3DE;color:#3B6D11">Proses cepat</span>
+              <span class="tag" style="background:#E1F5EE;color:#085041">R1 sangat rendah</span>
+              <span class="tag" style="background:#E6F1FB;color:#185FA5">Potensi repeat order</span>
+            </div>
+          </div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-badge" style="background:#FAEEDA;color:#854F0B">B</div>
+          <div class="tier-body">
+            <div class="tier-t">Tipe Potensial — Verifikasi Lebih Dalam</div>
+            <div class="tier-d">Usaha berjalan 3–6 bulan, reputasi baik di komunitas tapi riwayat finansial belum terverifikasi penuh, tujuan pinjaman jelas namun kapasitas bayar perlu dikonfirmasi ulang lewat kunjungan survei langsung ke tempat usaha. Perlu satu kunjungan ekstra sebelum diproses.</div>
+            <div class="tier-tags">
+              <span class="tag" style="background:#FAEEDA;color:#854F0B">Survei langsung dulu</span>
+              <span class="tag" style="background:#E6F1FB;color:#185FA5">Potensi bagus</span>
+              <span class="tag" style="background:#EAF3DE;color:#3B6D11">Layak diproses dengan catatan</span>
+            </div>
+          </div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-badge" style="background:#FCEBEB;color:#A32D2D">C</div>
+          <div class="tier-body">
+            <div class="tier-t">Tipe Berisiko — Tahan atau Tolak dengan Elegan</div>
+            <div class="tier-d">Tidak punya usaha yang jelas atau usaha sangat baru (&lt;3 bulan), reputasi diragukan oleh ketua komunitas, tujuan pinjaman untuk konsumsi atau kebutuhan mendesak non-produktif, riwayat bermasalah secara keuangan, atau cicilan yang diminta akan melebihi 40% pendapatan estimasi.</div>
+            <div class="tier-tags">
+              <span class="tag" style="background:#FCEBEB;color:#A32D2D">Jangan diproses</span>
+              <span class="tag" style="background:#FAEEDA;color:#854F0B">Sarankan perbaiki kondisi dulu</span>
+              <span class="tag" style="background:#E6F1FB;color:#185FA5">Review ulang 3 bulan lagi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Skrip Screening — Percakapan dengan Calon Nasabah</div>
+      <div class="script">
+        <div class="script-tag">Pertanyaan screening karakter (kepada mitra/ketua)</div>
+        <div class="script-q">"Pak RT, dari nama-nama yang Bapak rekomendasikan tadi, ada yang Bapak paling yakin soal karakter dan kedisiplinannya? Yang Bapak tahu memang orangnya amanah dalam soal uang?"</div>
+        <div class="script-a">Tips: Biarkan mitra menyebut nama sendiri — jangan tunjuk langsung. Nama yang disebut spontan biasanya adalah rekomendasi paling tulus dan berpeluang tinggi lolos screening.</div>
+      </div>
+      <div class="script">
+        <div class="script-tag">Pertanyaan screening kapasitas (kepada calon nasabah)</div>
+        <div class="script-q">"Bapak/Ibu usahanya sudah jalan berapa lama? Sehari kira-kira omzetnya berapa? Dana yang dibutuhkan untuk apa — untuk tambah stok atau beli peralatan? Kalau boleh, saya mau lihat tempatnya sebentar ya, biar prosesnya lebih mudah dan cepat."</div>
+        <div class="script-a">Tips: Kunjungan ke tempat usaha adalah verifikasi terkuat. Usaha yang nyata akan mudah dikunjungi. Calon nasabah yang menolak atau menghindari kunjungan perlu diwaspadai.</div>
+      </div>
+      <div class="script">
+        <div class="script-tag">Menolak leads dengan elegan tanpa merusak relasi</div>
+        <div class="script-q">"Pak RT, untuk nama [X] ini, saya sudah cek dan untuk saat ini kondisinya belum memenuhi persyaratan kami. Mungkin 3 bulan lagi kalau usahanya sudah lebih berkembang, bisa kita coba lagi. Yang penting jangan sampai dia dipaksakan masuk sekarang karena nanti malah memberatkan dia sendiri."</div>
+        <div class="script-a">Framing penolakan sebagai perlindungan terhadap calon nasabah, bukan penolakan sepihak. Ini menjaga hubungan dengan mitra tetap baik.</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Edukasi Mitra — Sistem Dua Lapis yang Scalable</div>
+      <p>PAO yang mature tidak hanya memfilter leads sendiri — ia mendidik mitra sehingga pre-screening terjadi sebelum leads dikirim. Ini menciptakan sistem dua lapis: mitra menyaring dulu, PAO memverifikasi.</p>
+      <div class="steps">
+        <div class="stp">
+          <div class="stp-n" style="background:#FAEEDA;color:#854F0B">1</div>
+          <div class="stp-c">
+            <div class="st">Berikan panduan kriteria yang simpel dan mudah diingat</div>
+            <div class="sd">Gunakan bahasa sehari-hari: "Yang bisa direkomendasikan itu: orangnya amanah, usahanya udah jalan, dan tujuan pinjamannya untuk usaha bukan untuk keperluan pribadi." Tiga kriteria ini mudah dipegang oleh ketua komunitas manapun.</div>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-n" style="background:#FAEEDA;color:#854F0B">2</div>
+          <div class="stp-c">
+            <div class="st">Berikan feedback rutin setelah setiap batch leads</div>
+            <div class="sd">Setelah memproses leads dari mitra, sampaikan: "Dari 10 yang kemarin dikirim, 7 lolos dan 3 belum bisa karena usahanya belum jelas." Feedback ini membantu mitra belajar dan secara bertahap meningkatkan kualitas rekomendasi mereka.</div>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-n" style="background:#FAEEDA;color:#854F0B">3</div>
+          <div class="stp-c">
+            <div class="st">Rayakan keberhasilan bersama mitra</div>
+            <div class="sd">Ketika nasabah yang direkomendasikan mitra berhasil cair, sampaikan kabar baiknya: "Alhamdulillah Pak, [Nama] yang Bapak rekomendasikan sudah cair. Terima kasih rekomendasinya, beliau sangat terbantu." Ini memotivasi mitra untuk terus terlibat aktif.</sd>
+          </div>
+        </div>
+        <div class="stp">
+          <div class="stp-n" style="background:#FAEEDA;color:#854F0B">4</div>
+          <div class="stp-c">
+            <div class="st">Tunjukkan dampak negatif leads berkualitas rendah</div>
+            <div class="sd">Dengan cara yang santun, edukasi mitra bahwa leads yang tidak sesuai kriteria justru membebani calon nasabah itu sendiri: "Kalau kita proses orang yang belum siap, nanti malah dia yang susah bayar dan bisa mempengaruhi nama baiknya di komunitas."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Kecepatan Follow-up — Competitive Advantage yang Sering Diabaikan</div>
+      <table class="tbl">
+        <tr><th>Waktu Follow-up</th><th>Probabilitas Konversi</th><th>Keterangan</th></tr>
+        <tr><td>&lt; 1 jam</td><td class="good">Sangat tinggi (~85%)</td><td>Leads masih "panas" — motivasi dan keputusan kuat</td></tr>
+        <tr><td>1–24 jam</td><td class="good">Tinggi (~65%)</td><td>Masih dalam window emas, segera hubungi</td></tr>
+        <tr><td>1–3 hari</td><td class="warn-c">Sedang (~40%)</td><td>Mulai mempertimbangkan alternatif lain</td></tr>
+        <tr><td>3–7 hari</td><td class="bad">Rendah (~20%)</td><td>Kemungkinan besar sudah ke kompetitor atau tidak jadi</td></tr>
+        <tr><td>&gt; 1 minggu</td><td class="bad">Sangat rendah (&lt;10%)</td><td>Leads sudah dingin — harus direkualifikasi dari awal</td></tr>
+      </table>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Kalkulasi Target — Breakdown Rp 300 Juta AF per Bulan</div>
+      <div class="gbar"><span class="gb-l">Leads total yang dibutuhkan (estimasi)</span><div class="gb-tr"><div class="gb-fi" style="width:100%;background:#E6F1FB"></div></div><span class="gb-v">~171 leads</span></div>
+      <div class="gbar"><span class="gb-l">Target lolos screening (50%)</span><div class="gb-tr"><div class="gb-fi" style="width:50%;background:#FAEEDA"></div></div><span class="gb-v">~86 order</span></div>
+      <div class="gbar"><span class="gb-l">Estimasi yang cair (AF) ~70%</span><div class="gb-tr"><div class="gb-fi" style="width:35%;background:#9FE1CB"></div></div><span class="gb-v">~60 AF</span></div>
+      <div class="gbar"><span class="gb-l">Rata-rata tiket pinjaman</span><div class="gb-tr"><div class="gb-fi" style="width:17%;background:#C0DD97"></div></div><span class="gb-v">Rp 5 Jt</span></div>
+      <div class="hl" style="background:#EAF3DE;color:#27500A;border-color:#639922;margin-top:.75rem">
+        <strong>Artinya:</strong> Dengan 7 komunitas aktif masing-masing menghasilkan ~25 leads/bulan = 175 leads → 87 order → 61 AF × Rp 5 Jt = <strong>Rp 305 Juta</strong>. Target tercapai! Kunci utamanya: menjaga 7+ komunitas tetap aktif dan produktif.
+      </div>
+    </div>
+
+    <div class="insight">
+      Leads to Order 50% bukan hanya angka KPI — ini cerminan seberapa efektif sistem seleksimu. Setiap leads yang masuk dan kemudian di-reject adalah sumber daya (waktu, tenaga, biaya) yang terbuang. Investasi dalam kualitas leads adalah investasi dalam efisiensi keseluruhan operasional PAO.
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BAB 4 ==================== -->
+<div class="bab" id="b4">
+  <div class="bab-hd" onclick="tb('b4')">
+    <div class="bab-str" style="background:#D4537E"></div>
+    <div class="bab-inf">
+      <div class="bab-no" style="color:#D4537E">Bab 4</div>
+      <div class="bab-ti">Menjaga Kualitas Portofolio</div>
+      <div class="bab-su">Relationship Marketing · Goal Setting Theory · R1 & R3M · Early Warning · Community Control · Digitalisasi · PAO Mature · KPI sebagai Cermin Kerja</div>
+    </div>
+    <div class="bab-ri"><span class="dbadge" id="db4">✓ Selesai</span><div class="chev">▼</div></div>
+  </div>
+  <div class="bab-bd">
+
+    <div class="theory">
+      <div class="t-dot" style="background:#D4537E;margin-top:6px"></div>
+      <div class="t-bd">
+        <div class="t-ey">Landasan Teori — Relationship Marketing (Morgan & Hunt, 1994) + Goal Setting Theory (Locke & Latham)</div>
+        <div class="t-tx"><strong>Relationship Marketing</strong> menyatakan bahwa hubungan jangka panjang yang sukses dibangun di atas Trust dan Commitment — dan hubungan ini adalah aset bisnis paling berharga. <strong>Goal Setting Theory</strong> mengatakan bahwa target yang spesifik, terukur, dan terhubung dengan aktivitas harian akan menghasilkan performa jauh lebih tinggi. Kombinasi keduanya: PAO yang memahami angka KPI sebagai cermin dari kualitas hubungan dan aktivitas hariannya.</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">KPI sebagai Cermin Kerja — Bukan Beban</div>
+      <p>Angka target bukan diletakkan untuk menekan PAO — melainkan sebagai <em>indikator objektif</em> apakah PAO sudah menjalankan tugas dengan benar. Ketika angka tidak tercapai, pertanyaannya bukan "siapa yang salah?" tapi "proses mana yang perlu diperbaiki?"</p>
+      <div class="kpilink">
+        <div class="kpil">
+          <div class="kpil-bar" style="background:#378ADD"></div>
+          <div class="kpil-b">
+            <div class="kpil-t">AF Partnership Rp 300 Jt</div>
+            <div class="kpil-d">Bukti bahwa sistem kemitraanmu berfungsi baik — komunitas aktif menghasilkan leads, leads menghasilkan pencairan.</div>
+            <div class="kpil-v" style="color:#378ADD">300 Jt</div>
+          </div>
+        </div>
+        <div class="kpil">
+          <div class="kpil-bar" style="background:#1D9E75"></div>
+          <div class="kpil-b">
+            <div class="kpil-t">Komunitas Aktif 35%</div>
+            <div class="kpil-d">Bukti kualitas relationship managementmu — komunitas dirawat, bukan sekadar didaftar lalu ditinggalkan.</div>
+            <div class="kpil-v" style="color:#1D9E75">35%</div>
+          </div>
+        </div>
+        <div class="kpil">
+          <div class="kpil-bar" style="background:#BA7517"></div>
+          <div class="kpil-b">
+            <div class="kpil-t">Leads to Order 50%</div>
+            <div class="kpil-d">Bukti efektivitas proses screeningmu — kamu memilih dengan teliti, bukan asal menerima semua leads.</div>
+            <div class="kpil-v" style="color:#BA7517">50%</div>
+          </div>
+        </div>
+        <div class="kpil">
+          <div class="kpil-bar" style="background:#D4537E"></div>
+          <div class="kpil-b">
+            <div class="kpil-t">R1 5% & R3M 25%</div>
+            <div class="kpil-d">Bukti ketelitianmu dalam memilih nasabah dan kekuatan sistem monitoring berbasis komunitas yang kamu bangun.</div>
+            <div class="kpil-v" style="color:#D4537E">5% / 25%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Memahami R1 dan R3M secara Mendalam</div>
+      <div class="risk2">
+        <div class="riskc">
+          <div class="risk-top">
+            <div><div class="risk-lbl">R1 — Bulan Pertama</div><div class="risk-sub-l">Batas maksimum yang diizinkan</div></div>
+            <div class="risk-val" style="color:#BA7517">5%</div>
+          </div>
+          <div class="risk-tr"><div class="risk-fi" style="width:5%;background:#BA7517"></div></div>
+          <div class="risk-m">Dari 100 nasabah aktif, maksimal 5 boleh menunggak di bulan pertama. R1 tinggi = sinyal langsung ada kesalahan identifikasi karakter di awal. Ini sepenuhnya dalam kendali PAO sejak tahap screening.</div>
+        </div>
+        <div class="riskc">
+          <div class="risk-top">
+            <div><div class="risk-lbl">R3M — Bulan Ketiga</div><div class="risk-sub-l">Batas maksimum kumulatif</div></div>
+            <div class="risk-val" style="color:#D4537E">25%</div>
+          </div>
+          <div class="risk-tr"><div class="risk-fi" style="width:25%;background:#D4537E"></div></div>
+          <div class="risk-m">Tunggak bulan ketiga bisa disebabkan masalah usaha, musibah, atau kondisi ekonomi. Lebih bisa ditoleransi tapi harus dimonitor aktif — mitra komunitas adalah instrumen monitoring terbaik yang dimiliki PAO.</div>
+        </div>
+      </div>
+
+      <table class="tbl">
+        <tr><th>Kondisi</th><th>Artinya</th><th>Tindakan Korektif PAO</th></tr>
+        <tr><td>R1 &lt; 2%</td><td class="good">Screening sangat baik</td><td>Dokumentasikan standar screening, jadikan benchmark</td></tr>
+        <tr><td>R1 2–5%</td><td class="good">Screening baik, dalam target</td><td>Pertahankan standar, tingkatkan sedikit demi sedikit</td></tr>
+        <tr><td>R1 5–10%</td><td class="warn-c">Ada kebocoran di seleksi</td><td>Review ulang kriteria screening bersama mitra terkait</td></tr>
+        <tr><td>R1 &gt; 10%</td><td class="bad">Masalah serius di sumber leads</td><td>Hentikan sementara leads dari komunitas tersebut, evaluasi menyeluruh</td></tr>
+        <tr><td>R3M &lt; 15%</td><td class="good">Portofolio sangat sehat</td><td>Lanjutkan monitoring rutin</td></tr>
+        <tr><td>R3M 15–25%</td><td class="warn-c">Dalam batas, perlu perhatian</td><td>Aktifkan monitoring via komunitas, identifikasi nasabah berisiko</td></tr>
+        <tr><td>R3M &gt; 25%</td><td class="bad">Portofolio bermasalah</td><td>Audit menyeluruh komunitas sumber, aktifkan intervensi langsung</td></tr>
+      </table>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Early Warning System — 6 Sinyal yang Harus Dideteksi</div>
+      <div class="warns">
+        <div class="wi"><div class="w-dot"></div><div><div class="w-t">Usaha mendadak sepi atau tutup sementara</div><div class="w-d">Kabar dari mitra bahwa warung/lapak/bengkel nasabah jarang buka, omzet turun drastis, atau tutup lebih dari 3 hari tanpa pemberitahuan. Konfirmasi langsung ke nasabah dalam 24 jam.</div></div></div>
+        <div class="wi"><div class="w-dot"></div><div><div class="w-t">Nasabah mulai menghindari komunikasi</div><div class="w-d">Tidak membalas WA, nomor tidak diangkat, atau terus-terusan bilang "nanti ya" saat diingatkan jadwal cicilan. Ini sinyal ada masalah yang disembunyikan — segera cari tahu via mitra.</div></div></div>
+        <div class="wi"><div class="w-dot"></div><div><div class="w-t">Musibah dalam keluarga</div><div class="w-d">Sakit keras anggota keluarga, kecelakaan, kematian, atau bencana yang menguras simpanan. Mitra komunitas biasanya tahu lebih dahulu — jadikan mereka sebagai sensor lapangan.</div></div></div>
+        <div class="wi"><div class="w-dot"></div><div><div class="w-t">Overload cicilan dari sumber lain</div><div class="w-d">Nasabah mengambil pinjaman tambahan dari rentenir, pinjol lain, atau arisan bodong. Ini memperburuk cash flow dan meningkatkan risiko gagal bayar secara signifikan.</div></div></div>
+        <div class="wi"><div class="w-dot"></div><div><div class="w-t">Perubahan gaya hidup yang tidak wajar</div><div class="w-d">Tiba-tiba terlihat lebih boros atau sebaliknya sangat pelit (tanda tekanan keuangan berat). Mitra komunitas yang dekat dengan nasabah biasanya bisa mendeteksi ini lebih awal.</div></div></div>
+        <div class="wi"><div class="w-dot"></div><div><div class="w-t">Konflik dalam usaha atau keluarga</div><div class="w-d">Perselisihan dengan mitra usaha, perceraian, atau konflik keluarga yang berpotensi mempengaruhi stabilitas keuangan dan fokus dalam membayar cicilan.</div></div></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Community-Based Monitoring — 5 Strategi Kontrol Sosial</div>
+      <div class="pt">
+        <div class="pt-ic" style="background:#E1F5EE;color:#0F6E56">1</div>
+        <div class="pt-b">
+          <div class="pt-t">Shared Values — Bangun Kepentingan Bersama yang Nyata</div>
+          <div class="pt-d">Sampaikan secara eksplisit kepada Ketua Komunitas: "RT kita yang angka bayar nasabahnya bagus akan mendapat peningkatan kuota pinjaman dan prioritas dalam program berikutnya." Ini bukan sekadar motivasi abstrak — ini insentif konkret yang membuat mitra punya kepentingan langsung dalam menjaga kualitas pembayaran.</div>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="pt-ic" style="background:#E6F1FB;color:#185FA5">2</div>
+        <div class="pt-b">
+          <div class="pt-t">Social Pressure yang Konstruktif</div>
+          <div class="pt-d">Dalam komunitas solid, reputasi adalah aset sosial yang dijaga. Nasabah yang menunggak tahu bahwa ketua dan tetangganya tahu kondisi tersebut. Kontrol sosial organik ini lebih efektif dari penagihan eksternal manapun — dan tidak merusak hubungan jangka panjang dengan komunitas.</div>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="pt-ic" style="background:#FBEAF0;color:#993556">3</div>
+        <div class="pt-b">
+          <div class="pt-t">Ketua sebagai Early Reminder, Bukan Penagih</div>
+          <div class="pt-d">Edukasi ketua untuk mengingatkan nasabah secara informal sebelum jatuh tempo: "Pak Budi, minggu depan cicilan FINATRA-nya ya." Ini jauh lebih efektif dan menjaga hubungan sosial tetap baik. Bedakan dengan penagihan — mitra adalah teman yang mengingatkan, bukan collector.</div>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="pt-ic" style="background:#FAEEDA;color:#854F0B">4</div>
+        <div class="pt-b">
+          <div class="pt-t">Kunjungan Silaturahmi Berkala ke Nasabah Aktif</div>
+          <div class="pt-d">Jangan hanya datang ketika ada masalah. Kunjungi nasabah yang pembayarannya lancar secara berkala untuk menunjukkan apresiasi. Ini membangun loyalitas yang kuat — nasabah yang merasa diperhatikan lebih cenderung membayar tepat waktu dan merekomendasikan kerabat mereka.</div>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="pt-ic" style="background:#EAF3DE;color:#3B6D11">5</div>
+        <div class="pt-b">
+          <div class="pt-t">Grup Informasi — Mitra sebagai Jaringan Intelijen</div>
+          <div class="pt-d">Buat grup WA khusus dengan para ketua komunitas mitra. Gunakan untuk berbagi informasi penting (program baru, tips usaha), bukan untuk menagih. Mitra yang aktif di grup akan lebih terbuka berbagi informasi tentang kondisi nasabah secara organik.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Digitalisasi Operasional PAO — Tools Wajib</div>
+      <div class="dg3">
+        <div class="dgc"><div class="dgc-i">📍</div><div class="dgc-t">Community Mapping</div><div class="dgc-d">Profil komunitas, status, histori kunjungan, dan rencana follow-up. Update setiap kunjungan.</div></div>
+        <div class="dgc"><div class="dgc-i">👥</div><div class="dgc-t">Leads Tracker</div><div class="dgc-d">Nama, kontak, status screening, tahap proses, dan target tanggal cair untuk setiap leads aktif.</div></div>
+        <div class="dgc"><div class="dgc-i">📊</div><div class="dgc-t">KPI Dashboard</div><div class="dgc-d">Progress harian vs target bulanan — AF, komunitas aktif, Leads to Order, dan angka risk secara real-time.</div></div>
+        <div class="dgc"><div class="dgc-i">⚠️</div><div class="dgc-t">Early Warning Log</div><div class="dgc-d">Daftar nasabah yang perlu perhatian khusus, beserta tanggal deteksi dan tindakan yang sudah diambil.</div></div>
+        <div class="dgc"><div class="dgc-i">📅</div><div class="dgc-t">Visit Schedule</div><div class="dgc-d">Jadwal kunjungan komunitas dan nasabah — pastikan tidak ada yang terlewat lebih dari 2 minggu.</div></div>
+        <div class="dgc"><div class="dgc-i">📝</div><div class="dgc-t">Activity Log</div><div class="dgc-d">Rekap aktivitas harian sebagai basis evaluasi bulanan dan bahan diskusi dengan supervisor.</div></div>
+      </div>
+      <div class="hl" style="background:#E6F1FB;color:#185FA5;border-color:#378ADD">
+        <strong>Data adalah aset masa depan:</strong> Dari data digital form, PAO bisa menjawab pertanyaan strategis: komunitas mana yang paling produktif? Bulan mana leads paling banyak masuk? Tipe usaha apa yang konversinya paling tinggi? Tanpa data, semua keputusan hanya berdasarkan feeling.
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Perbandingan PAO Berkembang vs Mature — 10 Dimensi</div>
+      <table class="tbl">
+        <tr><th>Dimensi</th><th>PAO Berkembang</th><th>PAO Mature</th></tr>
+        <tr><td>Sumber leads</td><td class="bad">Masih mencari sendiri mayoritas</td><td class="good">Mitra yang aktif mengirim secara rutin</td></tr>
+        <tr><td>Kualitas leads</td><td class="bad">Rejection rate &gt;40%</td><td class="good">Rejection rate konsisten &lt;25%</td></tr>
+        <tr><td>R1</td><td class="bad">Sering di atas 8–10%</td><td class="good">Selalu di bawah 5%</td></tr>
+        <tr><td>R3M</td><td class="bad">Fluktuatif, susah diprediksi</td><td class="good">Stabil di bawah 25%, termonitor</td></tr>
+        <tr><td>Ketika nasabah macet</td><td class="bad">Harus kejar sendiri satu per satu</td><td class="good">Mitra komunitas membantu deteksi & ingatkan</td></tr>
+        <tr><td>Digital form</td><td class="bad">Diisi tidak teratur, sering kosong</td><td class="good">Diisi real-time setiap aktivitas</td></tr>
+        <tr><td>Hubungan komunitas</td><td class="bad">Transaksional — datang saat butuh</td><td class="good">Relasional jangka panjang, saling percaya</td></tr>
+        <tr><td>Respons ketua mitra</td><td class="bad">Kadang tidak membalas pesan</td><td class="good">Proaktif menghubungi duluan</td></tr>
+        <tr><td>Penggunaan waktu</td><td class="bad">Mayoritas untuk prospecting baru</td><td class="good">Mayoritas untuk mengelola relasi & kualitas</td></tr>
+        <tr><td>Stabilitas target</td><td class="bad">Fluktuasi besar bulan ke bulan</td><td class="good">Konsisten mendekati atau melampaui target</td></tr>
+      </table>
+    </div>
+
+    <div class="sub">
+      <div class="sub-title">Goal Setting in Practice — Aktivitas Harian yang Menggerakkan KPI</div>
+      <p>Goal Setting Theory (Locke & Latham) membuktikan bahwa tujuan yang spesifik dan terhubung dengan aktivitas harian menghasilkan performa yang jauh lebih tinggi. Berikut cara menghubungkan aktivitas harian PAO dengan angka KPI:</p>
+      <table class="tbl">
+        <tr><th>Aktivitas Harian</th><th>KPI yang Terpengaruh</th><th>Frekuensi Ideal</th></tr>
+        <tr><td>Kunjungan komunitas aktif</td><td>Komunitas Aktif 35%</td><td>2x per komunitas per bulan</td></tr>
+        <tr><td>Follow-up leads baru</td><td>Leads to Order 50%</td><td>Dalam 24 jam setelah leads masuk</td></tr>
+        <tr><td>Screening karakter & kapasitas</td><td>R1 5% & Leads to Order 50%</td><td>Setiap leads sebelum diproses</td></tr>
+        <tr><td>Update digital form</td><td>Semua KPI (basis evaluasi)</td><td>Real-time setelah setiap aktivitas</td></tr>
+        <tr><td>Silaturahmi nasabah aktif</td><td>R3M 25% & repeat order</td><td>1x per bulan per nasabah</td></tr>
+        <tr><td>Edukasi mitra baru</td><td>Komunitas Aktif 35%</td><td>3x dalam 30 hari pertama onboarding</td></tr>
+        <tr><td>Monitoring early warning</td><td>R1 5% & R3M 25%</td><td>Harian via info mitra komunitas</td></tr>
+      </table>
+    </div>
+
+    <div class="insight">
+      PAO mature tidak lebih keras bekerja — ia bekerja lebih cerdas. Dengan sistem komunitas yang kuat, monitoring berbasis jaringan, dan data yang terkelola, ia memiliki lebih banyak waktu untuk hal-hal strategis yang terus meningkatkan performa jangka panjang.
+    </div>
+  </div>
+</div>
+
+<!-- TAKEAWAY -->
+<div class="tw">
+  <div class="tw-t">"Seorang PAO bukan sekadar pencari data, melainkan seorang Account Manager yang membangun ekosistem kemitraan berkelanjutan. Target bukan beban — target adalah cermin seberapa baik sistem yang sudah kamu bangun. Bangun sistemnya, dan target akan mengikuti."</div>
+  <div class="tw-s">Key Takeaway · Modul Pelatihan PAO FINATRA 2025</div>
+</div>
+
+</div>
+
+<script>
+const rd=new Set();
+function tb(id){
+  const c=document.getElementById(id);
+  const was=c.classList.contains('open');
+  document.querySelectorAll('.bab').forEach(b=>b.classList.remove('open'));
+  if(!was){
+    c.classList.add('open');
+    const n=id.replace('b','');
+    if(!rd.has(id)){
+      rd.add(id);
+      const db=document.getElementById('db'+n);
+      if(db)db.classList.add('on');
+      const s=rd.size;
+      document.getElementById('pf').style.width=(s/4*100)+'%';
+      document.getElementById('pc').textContent=s+' / 4 bab';
+    }
+  }
+}
+</script>
