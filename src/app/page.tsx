@@ -74,17 +74,18 @@ export default function Home() {
         body: JSON.stringify(formData),
         signal: controller.signal,
       })
-      const data = await res.json().catch(() => null)
+      const data = await res.json().catch((error) => {
+        console.error('Error parsing registration response:', error)
+        return null
+      })
       
       if (!res.ok || !data?.success) {
         setSubmitError(data?.error || 'Pendaftaran gagal. Coba lagi.')
         return
       }
 
-      if (data.success) {
-        localStorage.setItem('pao_participant', JSON.stringify(data.data))
-        setParticipant(data.data)
-      }
+      localStorage.setItem('pao_participant', JSON.stringify(data.data))
+      setParticipant(data.data)
     } catch (error: any) {
       if (error?.name === 'AbortError') {
         setSubmitError('Koneksi terlalu lama. Periksa internet lalu coba lagi.')
@@ -236,7 +237,7 @@ export default function Home() {
               {isLoading ? 'Mendaftar...' : 'Mulai Belajar'}
             </button>
             {submitError && (
-              <p className="text-xs sm:text-sm" style={{ color: '#c2410c' }}>
+              <p className="text-xs sm:text-sm text-orange-700" role="alert" aria-live="polite">
                 {submitError}
               </p>
             )}
