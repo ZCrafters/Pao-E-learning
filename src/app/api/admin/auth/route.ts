@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
+import { randomUUID } from 'node:crypto'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'finatra123'
+const ADMIN_SESSION_MAX_AGE_SECONDS = 24 * 60 * 60
 
 export async function POST(request: Request) {
   try {
@@ -16,7 +18,7 @@ export async function POST(request: Request) {
 
     if (password === ADMIN_PASSWORD) {
       const token = Buffer.from(
-        `${Date.now()}-${Math.random().toString(36).slice(2)}`
+        `${Date.now()}:${randomUUID()}`
       ).toString('base64')
 
       const response = NextResponse.json({
@@ -28,7 +30,7 @@ export async function POST(request: Request) {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 60 * 60 * 24,
+        maxAge: ADMIN_SESSION_MAX_AGE_SECONDS,
         path: '/',
       })
 
