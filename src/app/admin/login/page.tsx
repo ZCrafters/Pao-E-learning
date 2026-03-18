@@ -26,8 +26,6 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Set cookie using document.cookie
-        document.cookie = `admin_token=${data.token}; path=/; max-age=86400; SameSite=Lax`
         router.push('/admin')
         router.refresh()
       } else {
