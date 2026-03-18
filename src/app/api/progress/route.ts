@@ -1,5 +1,23 @@
+import { randomUUID } from 'node:crypto'
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+
+type Progress = {
+  id: string
+  participantId: string
+  modulesRead: string[]
+  percent: number
+  updatedAt: string
+}
+
+const globalStore = globalThis as typeof globalThis & {
+  paoProgress?: Map<string, Progress>
+}
+
+const progressStore = globalStore.paoProgress ?? new Map<string, Progress>()
+
+if (!globalStore.paoProgress) {
+  globalStore.paoProgress = progressStore
+}
 
 export const dynamic = 'force-dynamic'
 
@@ -15,34 +33,20 @@ export async function POST(request: Request) {
       )
     }
 
-    // Get current progress
-    let progress = await prisma.progress.findUnique({
-      where: { participantId },
-    })
+    const current = progressStore.get(participantId)
+    const modulesRead = current
+      ? Array.from(new Set([...current.modulesRead, moduleSlug]))
+      : [moduleSlug]
 
-    if (!progress) {
-      progress = await prisma.progress.create({
-        data: {
-          participantId,
-          modulesRead: JSON.stringify([moduleSlug]),
-          percent: 25,
-        },
-      })
-    } else {
-      const modules = JSON.parse(progress.modulesRead)
-      if (!modules.includes(moduleSlug)) {
-        modules.push(moduleSlug)
-      }
-      const percent = Math.min(modules.length * 25, 100)
-      
-      progress = await prisma.progress.update({
-        where: { participantId },
-        data: {
-          modulesRead: JSON.stringify(modules),
-          percent,
-        },
-      })
+    const progress: Progress = {
+      id: current?.id ?? randomUUID(),
+      participantId,
+      modulesRead,
+      percent: Math.min(modulesRead.length * 25, 100),
+      updatedAt: new Date().toISOString(),
     }
+
+    progressStore.set(participantId, progress)
 
     return NextResponse.json({ success: true, data: progress })
   } catch (error) {
@@ -66,11 +70,10 @@ export async function GET(request: Request) {
       )
     }
 
-    const progress = await prisma.progress.findUnique({
-      where: { participantId },
+    return NextResponse.json({
+      success: true,
+      data: progressStore.get(participantId) ?? null,
     })
-
-    return NextResponse.json({ success: true, data: progress })
   } catch (error) {
     console.error('Error fetching progress:', error)
     return NextResponse.json(

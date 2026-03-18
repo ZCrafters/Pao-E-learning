@@ -1,5 +1,23 @@
+import { randomUUID } from 'node:crypto'
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+
+type Participant = {
+  id: string
+  nama: string
+  cabang: string
+  email: string | null
+  createdAt: string
+}
+
+const globalStore = globalThis as typeof globalThis & {
+  paoParticipants?: Map<string, Participant>
+}
+
+const participants = globalStore.paoParticipants ?? new Map<string, Participant>()
+
+if (!globalStore.paoParticipants) {
+  globalStore.paoParticipants = participants
+}
 
 export const dynamic = 'force-dynamic'
 
@@ -15,25 +33,15 @@ export async function POST(request: Request) {
       )
     }
 
-    // Check if prisma is connected
-    await prisma.$connect()
+    const participant: Participant = {
+      id: randomUUID(),
+      nama,
+      cabang,
+      email: email || null,
+      createdAt: new Date().toISOString(),
+    }
 
-    const participant = await prisma.participant.create({
-      data: {
-        nama,
-        cabang,
-        email: email || null,
-      },
-    })
-
-    // Create initial progress
-    await prisma.progress.create({
-      data: {
-        participantId: participant.id,
-        modulesRead: '[]',
-        percent: 0,
-      },
-    })
+    participants.set(participant.id, participant)
 
     return NextResponse.json({ success: true, data: participant })
   } catch (error: any) {
@@ -46,23 +54,9 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  try {
-    await prisma.$connect()
-    
-    const participants = await prisma.participant.findMany({
-      include: {
-        results: true,
-        progress: true,
-      },
-      orderBy: { createdAt: 'desc' },
-    })
+  const data = Array.from(participants.values()).sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt)
+  )
 
-    return NextResponse.json({ success: true, data: participants })
-  } catch (error: any) {
-    console.error('Error fetching participants:', error)
-    return NextResponse.json(
-      { error: 'Gagal mengambil data peserta: ' + (error.message || 'Unknown error') },
-      { status: 500 }
-    )
-  }
+  return NextResponse.json({ success: true, data })
 }

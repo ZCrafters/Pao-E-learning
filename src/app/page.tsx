@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Target, Users, CheckCircle, ChevronRight, Award, BookOpen, MoreVertical } from 'lucide-react'
+import { Users, CheckCircle, ChevronRight } from 'lucide-react'
 
 interface Module {
   id: string
@@ -21,7 +21,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [progress, setProgress] = useState(0)
-  const [showDebug, setShowDebug] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('pao_participant')
@@ -105,13 +104,6 @@ export default function Home() {
     setProgress(0)
   }
 
-  // Hidden admin access: triple click on the logo
-  const handleLogoClick = (e: React.MouseEvent) => {
-    if ((e as any).detail === 3) {
-      setShowDebug(!showDebug)
-    }
-  }
-
   const kpiData = [
     { label: 'AF Partnership', value: 'Rp 300 Jt', desc: 'Target pencairan', color: '#378ADD' },
     { label: 'Komunitas Aktif', value: '35%', desc: 'Kirim leads/bulan', color: '#1D9E75' },
@@ -123,9 +115,8 @@ export default function Home() {
     <main className="mobile-container pb-24">
       {/* Hero Section */}
       <div 
-        className="rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 cursor-pointer select-none"
+        className="rounded-xl p-4 sm:p-6 mb-4 sm:mb-6"
         style={{ background: 'var(--color-background-secondary)', border: '0.5px solid var(--color-border-tertiary)' }}
-        onClick={handleLogoClick}
       >
         <div className="text-xs font-medium tracking-wider uppercase mb-2" style={{ color: 'var(--color-text-secondary)' }}>
           FINATRA · Modul Pelatihan Resmi PAO
@@ -141,31 +132,6 @@ export default function Home() {
           <span className="badge text-xs" style={{ background: 'var(--color-background-secondary)', border: '0.5px solid var(--color-border-secondary)' }}>5 Soal Post-Test</span>
           <span className="badge text-xs hidden sm:inline" style={{ background: 'var(--color-background-secondary)', border: '0.5px solid var(--color-border-secondary)' }}>Sertifikat Digital</span>
         </div>
-
-        {/* Hidden admin button - only shows after triple click */}
-        {showDebug && (
-          <div className="mt-4 pt-4 border-t" style={{ borderColor: 'var(--color-border-tertiary)' }}>
-            <div className="flex gap-2">
-              <button 
-                onClick={(e) => { e.stopPropagation(); router.push('/admin/login') }}
-                className="text-xs px-3 py-1.5 rounded border"
-                style={{ borderColor: 'var(--color-border-secondary)' }}
-              >
-                🔒 Admin Panel
-              </button>
-              <button 
-                onClick={(e) => { e.stopPropagation(); setShowDebug(false) }}
-                className="text-xs px-3 py-1.5 rounded border"
-                style={{ borderColor: 'var(--color-border-secondary)' }}
-              >
-                Tutup
-              </button>
-            </div>
-            <p className="text-xs mt-2" style={{ color: 'var(--color-text-secondary)' }}>
-              Tip: Triple-click header untuk toggle menu ini
-            </p>
-          </div>
-        )}
       </div>
 
       {/* KPI Grid */}
