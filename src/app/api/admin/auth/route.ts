@@ -15,13 +15,24 @@ export async function POST(request: Request) {
     }
 
     if (password === ADMIN_PASSWORD) {
-      const token = Buffer.from(`${Date.now()}:${ADMIN_PASSWORD}`).toString('base64')
-      
-      return NextResponse.json({
+      const token = Buffer.from(
+        `${Date.now()}-${Math.random().toString(36).slice(2)}`
+      ).toString('base64')
+
+      const response = NextResponse.json({
         success: true,
-        token,
         message: 'Login successful'
       })
+
+      response.cookies.set('admin_token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24,
+        path: '/',
+      })
+
+      return response
     } else {
       return NextResponse.json(
         { error: 'Invalid password' },
