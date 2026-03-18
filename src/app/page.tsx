@@ -271,8 +271,8 @@ export default function Home() {
         {modules.map((mod, index) => (
           <div
             key={mod.id}
-            onClick={() => participant && router.push(`/bab/${mod.slug}`)}
-            className={`point-row ${!participant ? 'opacity-60 cursor-not-allowed' : ''}`}
+            onClick={() => router.push(`/bab/${mod.slug}`)}
+            className="point-row"
           >
             <div 
               className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs sm:text-sm font-medium flex-shrink-0"
@@ -284,7 +284,7 @@ export default function Home() {
               <div className="font-medium text-sm leading-tight">{mod.title}</div>
               <div className="text-xs mt-0.5 line-clamp-1" style={{ color: 'var(--color-text-secondary)' }}>{mod.description}</div>
             </div>
-            {participant && <ChevronRight size={16} className="flex-shrink-0" style={{ color: 'var(--color-text-secondary)' }} />}
+            <ChevronRight size={16} className="flex-shrink-0" style={{ color: 'var(--color-text-secondary)' }} />
           </div>
         ))}
       </div>

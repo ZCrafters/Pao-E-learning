@@ -36,16 +36,18 @@ export default function ModulePage() {
 
   useEffect(() => {
     const saved = localStorage.getItem('pao_participant')
-    if (!saved) {
-      router.push('/')
-      return
+    if (saved) {
+      setParticipant(JSON.parse(saved))
     }
-    setParticipant(JSON.parse(saved))
     fetchModule()
-  }, [fetchModule, router])
+  }, [fetchModule])
 
   const handleMarkAsRead = async () => {
-    if (!participant || isRead) return
+    if (isRead) return
+    if (!participant) {
+      setIsRead(true)
+      return
+    }
     
     try {
       await fetch('/api/progress', {
