@@ -31,6 +31,15 @@ em{font-style:italic;color:var(--color-text-primary)}
 .prog-fi{height:100%;border-radius:3px;background:#378ADD;transition:width .5s cubic-bezier(.4,0,.2,1)}
 .prog-ct{font-size:12px;font-weight:500;color:var(--color-text-primary);white-space:nowrap}
 
+/* UPDATE PANEL */
+.upd{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.15rem;background:var(--color-background-primary);margin-bottom:1.75rem}
+.upd-h{font-size:11px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:.85rem}
+.upd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:.95rem}
+.upd-c{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.8rem .9rem;background:var(--color-background-secondary)}
+.upd-t{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.upd-d{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.upd-note{font-size:12px;color:var(--color-text-secondary);line-height:1.7}
+
 /* BAB */
 .bab{border:0.5px solid var(--color-border-tertiary);border-radius:14px;background:var(--color-background-primary);overflow:hidden;margin-bottom:10px;transition:border-color .2s}
 .bab:hover{border-color:var(--color-border-secondary)}
@@ -217,9 +226,9 @@ em{font-style:italic;color:var(--color-text-primary)}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-tag">FINATRA · Modul Pelatihan Resmi PAO · 2025</div>
+  <div class="hero-tag">FINATRA · Modul Pelatihan Resmi PAO · Update 2026</div>
   <div class="hero-h">Strategic Partnership<br>Account Officer</div>
-  <div class="hero-sub">Panduan ultra-lengkap berbasis KPI — teori akademik, strategi lapangan, contoh nyata, skrip percakapan, framework operasional, dan indikator kematangan profesional PAO.</div>
+  <div class="hero-sub">Panduan ultra-lengkap berbasis KPI yang sudah diperbarui — mencakup data target terbaru, teori akademik, strategi lapangan, contoh nyata, skrip percakapan, framework operasional, dan indikator kematangan profesional PAO.</div>
   <div class="pills">
     <span class="pill">4 Bab Materi</span>
     <span class="pill">Teori Akademik</span>
@@ -234,10 +243,10 @@ em{font-style:italic;color:var(--color-text-primary)}
 
 <!-- KPI -->
 <div class="kpi-g">
-  <div class="kc kc-b1"><div class="kc-l">AF Partnership</div><div class="kc-v">Rp 300 Jt</div><div class="kc-d">Target pencairan/bulan</div></div>
-  <div class="kc kc-b2"><div class="kc-l">Komunitas Aktif</div><div class="kc-v">35%</div><div class="kc-d">Rutin kirim leads</div></div>
-  <div class="kc kc-b3"><div class="kc-l">Leads to Order</div><div class="kc-v">50%</div><div class="kc-d">5 dari 10 leads layak</div></div>
-  <div class="kc kc-b4"><div class="kc-l">R1 / R3M</div><div class="kc-v">5% / 25%</div><div class="kc-d">Batas tunggak maks.</div></div>
+  <div class="kc kc-b1"><div class="kc-l">AF Partnership</div><div class="kc-v">Rp 300 Jt</div><div class="kc-d">Target pencairan bersih per bulan</div></div>
+  <div class="kc kc-b2"><div class="kc-l">Komunitas Aktif</div><div class="kc-v">35%</div><div class="kc-d">Mitra rutin kirim leads berkualitas</div></div>
+  <div class="kc kc-b3"><div class="kc-l">Leads to Order</div><div class="kc-v">50%</div><div class="kc-d">Minimal 5 dari 10 leads lolos proses</div></div>
+  <div class="kc kc-b4"><div class="kc-l">R1 / R3M</div><div class="kc-v">5% / 25%</div><div class="kc-d">Batas maksimum rasio tunggakan</div></div>
 </div>
 
 <!-- PROGRESS -->
@@ -245,6 +254,30 @@ em{font-style:italic;color:var(--color-text-primary)}
   <span class="prog-l">Progress membaca</span>
   <div class="prog-tr"><div class="prog-fi" id="pf" style="width:0%"></div></div>
   <span class="prog-ct" id="pc">0 / 4 bab</span>
+</div>
+
+<!-- UPDATE SUMMARY -->
+<div class="upd">
+  <div class="upd-h">Ringkasan Update Modul</div>
+  <div class="upd-grid">
+    <div class="upd-c">
+      <div class="upd-t">Data KPI diperbarui</div>
+      <div class="upd-d">Seluruh indikator di modul ini mengikuti baseline operasional PAO terbaru: AF Partnership, Komunitas Aktif, Leads to Order, serta kontrol risiko R1/R3M.</div>
+    </div>
+    <div class="upd-c">
+      <div class="upd-t">Penjelasan lebih detail per bab</div>
+      <div class="upd-d">Setiap bab memuat teori, contoh implementasi lapangan, checklist eksekusi, dan skrip komunikasi agar materi bisa langsung dipraktikkan harian.</div>
+    </div>
+    <div class="upd-c">
+      <div class="upd-t">Fokus pada kualitas portofolio</div>
+      <div class="upd-d">Modul menekankan seleksi leads, monitoring komunitas, dan early warning sehingga pertumbuhan bisnis tetap sehat dan berkelanjutan.</div>
+    </div>
+    <div class="upd-c">
+      <div class="upd-t">Siap pakai untuk coaching</div>
+      <div class="upd-d">Struktur materi dapat dipakai untuk self-learning PAO baru maupun sesi coaching mingguan bersama supervisor area.</div>
+    </div>
+  </div>
+  <div class="upd-note"><strong>Cara menggunakan modul ini:</strong> baca berurutan dari Bab 1 sampai Bab 4, lalu terapkan minimal 1 aksi harian dari tiap bab selama 30 hari agar dampaknya terlihat pada KPI bulanan.</div>
 </div>
 
 <!-- ==================== BAB 1 ==================== -->
@@ -1008,7 +1041,7 @@ em{font-style:italic;color:var(--color-text-primary)}
 <!-- TAKEAWAY -->
 <div class="tw">
   <div class="tw-t">"Seorang PAO bukan sekadar pencari data, melainkan seorang Account Manager yang membangun ekosistem kemitraan berkelanjutan. Target bukan beban — target adalah cermin seberapa baik sistem yang sudah kamu bangun. Bangun sistemnya, dan target akan mengikuti."</div>
-  <div class="tw-s">Key Takeaway · Modul Pelatihan PAO FINATRA 2025</div>
+  <div class="tw-s">Key Takeaway · Modul Pelatihan PAO FINATRA 2026</div>
 </div>
 
 </div>
