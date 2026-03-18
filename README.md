@@ -53,7 +53,9 @@ git push -u origin main
 2. **Deploy ke Vercel:**
 - Buka [vercel.com](https://vercel.com)
 - Import project dari GitHub
-- Environment variables sudah diatur di `.env`
+- Tambahkan Environment Variables di Vercel Project Settings:
+  - `NEXTAUTH_SECRET` (gunakan secret acak untuk production)
+  - `NEXTAUTH_URL` (contoh: `https://your-app.vercel.app`)
 - Deploy!
 
 ### Option 2: Deploy ke VPS/Server
@@ -112,9 +114,10 @@ Platform menggunakan design system yang konsisten:
 
 ## 🔒 Environment Variables
 
-```env
-NEXTAUTH_SECRET="your-secret-key"
-NEXTAUTH_URL="http://localhost:3000"
+Copy `.env.example` menjadi `.env`, lalu sesuaikan nilainya:
+
+```bash
+cp .env.example .env
 ```
 
 ## 📱 Mobile Responsive
