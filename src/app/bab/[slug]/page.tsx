@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { ChevronLeft, CheckCircle } from 'lucide-react'
 
@@ -23,17 +23,7 @@ export default function ModulePage() {
   const [participant, setParticipant] = useState<any>(null)
   const [isRead, setIsRead] = useState(false)
 
-  useEffect(() => {
-    const saved = localStorage.getItem('pao_participant')
-    if (!saved) {
-      router.push('/')
-      return
-    }
-    setParticipant(JSON.parse(saved))
-    fetchModule()
-  }, [slug])
-
-  const fetchModule = async () => {
+  const fetchModule = useCallback(async () => {
     try {
       const moduleData = getModuleData(slug)
       setModule(moduleData)
@@ -42,7 +32,17 @@ export default function ModulePage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [slug])
+
+  useEffect(() => {
+    const saved = localStorage.getItem('pao_participant')
+    if (!saved) {
+      router.push('/')
+      return
+    }
+    setParticipant(JSON.parse(saved))
+    fetchModule()
+  }, [fetchModule, router])
 
   const handleMarkAsRead = async () => {
     if (!participant || isRead) return
@@ -64,16 +64,16 @@ export default function ModulePage() {
 
   if (isLoading) {
     return (
-      <main className="max-w-3xl mx-auto px-4 py-8">
-        <div className="text-center py-12">Memuat...</div>
+      <main className="mobile-container">
+        <div className="text-center py-12 text-sm">Memuat...</div>
       </main>
     )
   }
 
   if (!module) {
     return (
-      <main className="max-w-3xl mx-auto px-4 py-8">
-        <div className="text-center py-12">Modul tidak ditemukan</div>
+      <main className="mobile-container">
+        <div className="text-center py-12 text-sm">Modul tidak ditemukan</div>
       </main>
     )
   }
@@ -81,49 +81,54 @@ export default function ModulePage() {
   const content = module.content
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-8 pb-20">
+    <main className="mobile-container pb-24">
+      {/* Header */}
       <button 
         onClick={() => router.push('/')}
-        className="flex items-center gap-1 text-sm mb-4 hover:opacity-70"
+        className="flex items-center gap-1 text-xs sm:text-sm mb-3 sm:mb-4 hover:opacity-70"
         style={{ color: 'var(--color-text-secondary)' }}
       >
         <ChevronLeft size={16} />
-        Kembali ke Beranda
+        Kembali
       </button>
 
-      <div className="mb-6">
-        <div className="text-xs font-medium tracking-wider uppercase mb-2" style={{ color: module.color }}>
+      {/* Title */}
+      <div className="mb-4 sm:mb-6">
+        <div className="text-xs font-medium tracking-wider uppercase mb-1 sm:mb-2" style={{ color: module.color }}>
           Bab {module.slug.replace('bab', '')}
         </div>
-        <h1 className="text-xl font-medium mb-2">{module.title}</h1>
-        <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>{module.description}</p>
+        <h1 className="text-lg sm:text-xl font-medium mb-1 sm:mb-2 leading-tight">{module.title}</h1>
+        <p className="text-xs sm:text-sm" style={{ color: 'var(--color-text-secondary)' }}>{module.description}</p>
       </div>
 
+      {/* Theory Card */}
       {content.theory && (
         <div className="theory-card">
           <div className="w-2 h-2 rounded-full flex-shrink-0 mt-1" style={{ background: module.color }}></div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <div className="text-xs font-medium tracking-wider uppercase mb-1" style={{ color: 'var(--color-text-secondary)' }}>
               Landasan Teori
             </div>
-            <div className="text-sm leading-relaxed">
+            <div className="text-xs sm:text-sm leading-relaxed">
               <strong>{content.theory.title}</strong> — {content.theory.text}
             </div>
           </div>
         </div>
       )}
 
+      {/* Content based on module type */}
       {slug === 'bab1' && <Bab1Content content={content} color={module.color} />}
       {slug === 'bab2' && <Bab2Content content={content} color={module.color} />}
       {slug === 'bab3' && <Bab3Content content={content} color={module.color} />}
       {slug === 'bab4' && <Bab4Content content={content} color={module.color} />}
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t" style={{ borderColor: 'var(--color-border-tertiary)' }}>
+      {/* Mark as Read Button - Fixed bottom */}
+      <div className="fixed bottom-0 left-0 right-0 p-3 sm:p-4 bg-white border-t safe-bottom" style={{ borderColor: 'var(--color-border-tertiary)' }}>
         <div className="max-w-3xl mx-auto">
           <button
             onClick={handleMarkAsRead}
             disabled={isRead}
-            className={`w-full py-3 rounded-lg font-medium transition-all ${
+            className={`w-full py-3 rounded-lg font-medium transition-all text-sm sm:text-base touch-target ${
               isRead ? 'bg-green-100 text-green-700' : 'btn-primary'
             }`}
           >
@@ -140,14 +145,15 @@ export default function ModulePage() {
   )
 }
 
+// Module-specific content components with mobile improvements
 function Bab1Content({ content, color }: { content: any; color: string }) {
   return (
     <>
       <h3 className="section-title">3 Identitas Profesional PAO</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-6">
         {content.identities?.map((id: any, i: number) => (
-          <div key={i} className="card p-4">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium mb-2" style={{ background: id.bg, color: id.color }}>
+          <div key={i} className="card p-3 sm:p-4">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs font-medium mb-2" style={{ background: id.bg, color: id.color }}>
               {id.code}
             </div>
             <div className="font-medium text-sm mb-1">{id.title}</div>
@@ -157,8 +163,8 @@ function Bab1Content({ content, color }: { content: any; color: string }) {
       </div>
 
       <h3 className="section-title">Perbandingan Mendasar</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-        <div className="card p-4 border-l-4" style={{ borderLeftColor: '#E24B4A' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6">
+        <div className="card p-3 sm:p-4 border-l-4" style={{ borderLeftColor: '#E24B4A' }}>
           <div className="font-medium text-sm mb-2" style={{ color: '#A32D2D' }}>Sales Tradisional</div>
           {content.comparison?.traditional.map((item: string, i: number) => (
             <div key={i} className="text-xs mb-1 pl-3 relative" style={{ color: 'var(--color-text-secondary)' }}>
@@ -166,7 +172,7 @@ function Bab1Content({ content, color }: { content: any; color: string }) {
             </div>
           ))}
         </div>
-        <div className="card p-4 border-l-4" style={{ borderLeftColor: '#1D9E75' }}>
+        <div className="card p-3 sm:p-4 border-l-4" style={{ borderLeftColor: '#1D9E75' }}>
           <div className="font-medium text-sm mb-2" style={{ color: '#0F6E56' }}>PAO (Strategic Partner)</div>
           {content.comparison?.pao.map((item: string, i: number) => (
             <div key={i} className="text-xs mb-1 pl-3 relative" style={{ color: 'var(--color-text-secondary)' }}>
@@ -176,27 +182,27 @@ function Bab1Content({ content, color }: { content: any; color: string }) {
         </div>
       </div>
 
-      <h3 className="section-title">Mindset Shift yang Harus Terjadi</h3>
+      <h3 className="section-title">Mindset Shift</h3>
       {content.mindset?.map((m: any, i: number) => (
         <div key={i} className="point-row mb-2">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-medium flex-shrink-0" style={{ background: m.type === 'wrong' ? '#FCEBEB' : '#EAF3DE', color: m.type === 'wrong' ? '#A32D2D' : '#3B6D11' }}>
+          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: m.type === 'wrong' ? '#FCEBEB' : '#EAF3DE', color: m.type === 'wrong' ? '#A32D2D' : '#3B6D11' }}>
             {m.type === 'wrong' ? '✗' : '✓'}
           </div>
-          <div>
-            <div className="font-medium text-sm">{m.title}</div>
+          <div className="min-w-0 flex-1">
+            <div className="font-medium text-xs sm:text-sm">{m.title}</div>
             <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{m.desc}</div>
           </div>
         </div>
       ))}
 
-      <h3 className="section-title mt-4">Stakeholder yang Dikelola PAO</h3>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+      <h3 className="section-title mt-4">Stakeholder</h3>
+      <div className="overflow-x-auto -mx-3 px-3">
+        <table className="w-full text-xs sm:text-sm min-w-[300px]">
           <thead>
             <tr style={{ background: 'var(--color-background-secondary)' }}>
               <th className="text-left p-2 text-xs font-medium">Pihak</th>
               <th className="text-left p-2 text-xs font-medium">Peran</th>
-              <th className="text-left p-2 text-xs font-medium">Cara Mengelola</th>
+              <th className="text-left p-2 text-xs font-medium hidden sm:table-cell">Cara</th>
             </tr>
           </thead>
           <tbody>
@@ -204,7 +210,7 @@ function Bab1Content({ content, color }: { content: any; color: string }) {
               <tr key={i} className="border-t" style={{ borderColor: 'var(--color-border-tertiary)' }}>
                 <td className="p-2 font-medium">{s.role}</td>
                 <td className="p-2" style={{ color: 'var(--color-text-secondary)' }}>{s.desc}</td>
-                <td className="p-2" style={{ color: 'var(--color-text-secondary)' }}>{s.manage}</td>
+                <td className="p-2 hidden sm:table-cell" style={{ color: 'var(--color-text-secondary)' }}>{s.manage}</td>
               </tr>
             ))}
           </tbody>
@@ -212,7 +218,7 @@ function Bab1Content({ content, color }: { content: any; color: string }) {
       </div>
 
       <div className="highlight-box mt-4" style={{ background: '#E6F1FB', color: '#185FA5', borderLeftColor: color }}>
-        <strong>Insight kunci:</strong> PAO yang menganggap dirinya hanya "sales biasa" akan selalu kehabisan tenaga mengejar target. PAO yang membangun ekosistem akan menuai hasil bahkan ketika tidak sedang aktif di lapangan.
+        <strong>Insight:</strong> PAO yang membangun ekosistem akan menuai hasil bahkan ketika tidak sedang aktif di lapangan.
       </div>
     </>
   )
@@ -223,45 +229,45 @@ function Bab2Content({ content, color }: { content: any; color: string }) {
     <>
       <h3 className="section-title">Bonding vs Bridging</h3>
       <div className="point-row mb-2">
-        <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#E1F5EE', color: '#0F6E56' }}>Bn</div>
-        <div>
-          <div className="font-medium text-sm">{content.bonding?.title}</div>
+        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#E1F5EE', color: '#0F6E56' }}>Bn</div>
+        <div className="min-w-0 flex-1">
+          <div className="font-medium text-xs sm:text-sm">{content.bonding?.title}</div>
           <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{content.bonding?.desc}</div>
         </div>
       </div>
       <div className="point-row mb-4">
-        <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#FAEEDA', color: '#854F0B' }}>Br</div>
-        <div>
-          <div className="font-medium text-sm">{content.bridging?.title}</div>
+        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#FAEEDA', color: '#854F0B' }}>Br</div>
+        <div className="min-w-0 flex-1">
+          <div className="font-medium text-xs sm:text-sm">{content.bridging?.title}</div>
           <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{content.bridging?.desc}</div>
         </div>
       </div>
 
-      <h3 className="section-title">Community Mapping Matrix</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
+      <h3 className="section-title">Community Matrix</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
         {content.matrix?.map((m: any, i: number) => (
           <div key={i} className="card p-3 relative" style={{ background: m.bg, color: m.color }}>
             <div className="absolute top-2 right-2 text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: m.bar, color: 'white' }}>{m.prio}</div>
-            <div className="font-medium text-sm mt-4">{m.title}</div>
+            <div className="font-medium text-sm mt-5">{m.title}</div>
             <div className="text-xs opacity-80">{m.desc}</div>
           </div>
         ))}
       </div>
 
-      <h3 className="section-title">Kriteria "Gold Community"</h3>
+      <h3 className="section-title">Gold Community</h3>
       {content.goldCriteria?.map((c: string, i: number) => (
         <div key={i} className="point-row mb-2">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#FAEEDA', color: '#854F0B' }}>G</div>
-          <div className="text-sm">{c}</div>
+          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#FAEEDA', color: '#854F0B' }}>G</div>
+          <div className="text-xs sm:text-sm">{c}</div>
         </div>
       ))}
 
-      <h3 className="section-title mt-4">The Gatekeeper Effect — Teknik Lobbying</h3>
+      <h3 className="section-title mt-4">Teknik Lobbying</h3>
       {content.lobbying?.map((step: any, i: number) => (
-        <div key={i} className="flex gap-3 mb-3 p-3 rounded-lg border" style={{ borderColor: 'var(--color-border-tertiary)' }}>
-          <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#E1F5EE', color: '#085041' }}>{step.step}</div>
-          <div>
-            <div className="font-medium text-sm">{step.title}</div>
+        <div key={i} className="flex gap-2 sm:gap-3 mb-3 p-2.5 sm:p-3 rounded-lg border" style={{ borderColor: 'var(--color-border-tertiary)' }}>
+          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#E1F5EE', color: '#085041' }}>{step.step}</div>
+          <div className="min-w-0 flex-1">
+            <div className="font-medium text-xs sm:text-sm">{step.title}</div>
             <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{step.desc}</div>
           </div>
         </div>
@@ -273,13 +279,13 @@ function Bab2Content({ content, color }: { content: any; color: string }) {
 function Bab3Content({ content, color }: { content: any; color: string }) {
   return (
     <>
-      <h3 className="section-title">Visualisasi Funnel PAO</h3>
+      <h3 className="section-title">Sales Funnel</h3>
       <div className="space-y-1 mb-4">
         {content.funnel?.map((f: any, i: number) => (
-          <div key={i} className="flex items-center gap-3">
-            <div className="text-xs w-20 text-right" style={{ color: 'var(--color-text-secondary)' }}>{f.stage}</div>
-            <div className="flex-1 h-8 rounded-lg overflow-hidden" style={{ background: 'var(--color-background-secondary)' }}>
-              <div className="h-full flex items-center px-3 text-xs font-medium" style={{ width: `${f.pct}%`, background: f.bg, color: f.color }}>{f.label}</div>
+          <div key={i} className="flex items-center gap-2 sm:gap-3">
+            <div className="text-xs w-16 sm:w-20 text-right" style={{ color: 'var(--color-text-secondary)' }}>{f.stage}</div>
+            <div className="flex-1 h-7 sm:h-8 rounded-lg overflow-hidden" style={{ background: 'var(--color-background-secondary)' }}>
+              <div className="h-full flex items-center px-2 sm:px-3 text-xs font-medium truncate" style={{ width: `${f.pct}%`, background: f.bg, color: f.color }}>{f.label}</div>
             </div>
             <div className="text-xs w-10" style={{ color: f.highlight ? color : 'var(--color-text-secondary)', fontWeight: f.highlight ? 500 : 400 }}>{f.pct}%{f.highlight ? ' ✓' : ''}</div>
           </div>
@@ -289,22 +295,22 @@ function Bab3Content({ content, color }: { content: any; color: string }) {
       <h3 className="section-title">First Screening — Cek 3C</h3>
       {content.screening3C?.map((c: any, i: number) => (
         <div key={i} className="point-row mb-2">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: c.bg, color: c.color }}>{c.code}</div>
-          <div>
-            <div className="font-medium text-sm">{c.title}</div>
+          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: c.bg, color: c.color }}>{c.code}</div>
+          <div className="min-w-0 flex-1">
+            <div className="font-medium text-xs sm:text-sm">{c.title}</div>
             <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{c.desc}</div>
           </div>
         </div>
       ))}
 
       <h3 className="section-title mt-4">Customer Profiling</h3>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+      <div className="overflow-x-auto -mx-3 px-3">
+        <table className="w-full text-xs sm:text-sm min-w-[300px]">
           <thead>
             <tr style={{ background: 'var(--color-background-secondary)' }}>
               <th className="text-left p-2 text-xs font-medium">Kriteria</th>
-              <th className="text-left p-2 text-xs font-medium">Profil Ideal</th>
-              <th className="text-left p-2 text-xs font-medium">Red Flag</th>
+              <th className="text-left p-2 text-xs font-medium">Ideal</th>
+              <th className="text-left p-2 text-xs font-medium hidden sm:table-cell">Red Flag</th>
             </tr>
           </thead>
           <tbody>
@@ -312,26 +318,26 @@ function Bab3Content({ content, color }: { content: any; color: string }) {
               <tr key={i} className="border-t" style={{ borderColor: 'var(--color-border-tertiary)' }}>
                 <td className="p-2 font-medium">{p.criteria}</td>
                 <td className="p-2" style={{ color: 'var(--color-text-secondary)' }}>{p.ideal}</td>
-                <td className="p-2" style={{ color: '#A32D2D' }}>{p.redflag}</td>
+                <td className="p-2 hidden sm:table-cell" style={{ color: '#A32D2D' }}>{p.redflag}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <h3 className="section-title mt-4">Edukasi Mitra — Kunci PAO Mature</h3>
+      <h3 className="section-title mt-4">Edukasi Mitra</h3>
       {content.education?.map((e: any, i: number) => (
-        <div key={i} className="flex gap-3 mb-3 p-3 rounded-lg border" style={{ borderColor: 'var(--color-border-tertiary)' }}>
-          <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#FAEEDA', color: '#854F0B' }}>{e.code}</div>
-          <div>
-            <div className="font-medium text-sm">{e.title}</div>
+        <div key={i} className="flex gap-2 sm:gap-3 mb-3 p-2.5 sm:p-3 rounded-lg border" style={{ borderColor: 'var(--color-border-tertiary)' }}>
+          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#FAEEDA', color: '#854F0B' }}>{e.code}</div>
+          <div className="min-w-0 flex-1">
+            <div className="font-medium text-xs sm:text-sm">{e.title}</div>
             <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{e.desc}</div>
           </div>
         </div>
       ))}
 
       <div className="highlight-box mt-4" style={{ background: '#FAEEDA', color: '#854F0B', borderLeftColor: color }}>
-        <strong>Rumus efisiensi:</strong> Dari 10 leads → minimal 5 lolos screening → proses pengajuan → target AF tercapai.
+        <strong>Rumus:</strong> Dari 10 leads → minimal 5 lolos screening → target AF tercapai.
       </div>
     </>
   )
@@ -340,13 +346,13 @@ function Bab3Content({ content, color }: { content: any; color: string }) {
 function Bab4Content({ content, color }: { content: any; color: string }) {
   return (
     <>
-      <h3 className="section-title">Memahami R1 dan R3M secara Mendalam</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <h3 className="section-title">R1 dan R3M</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4">
         {content.riskMetrics?.map((r: any, i: number) => (
-          <div key={i} className="card p-4">
+          <div key={i} className="card p-3 sm:p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="font-medium text-sm">{r.label}</span>
-              <span className="text-lg font-medium" style={{ color: r.color }}>{r.value}</span>
+              <span className="font-medium text-xs sm:text-sm">{r.label}</span>
+              <span className="text-base sm:text-lg font-medium" style={{ color: r.color }}>{r.value}</span>
             </div>
             <div className="progress-bar mb-2">
               <div className="progress-fill" style={{ width: `${r.pct}%`, background: r.color }}></div>
@@ -356,40 +362,40 @@ function Bab4Content({ content, color }: { content: any; color: string }) {
         ))}
       </div>
 
-      <h3 className="section-title">Apa yang Menyebabkan R1 Tinggi?</h3>
+      <h3 className="section-title">Penyebab R1 Tinggi</h3>
       {content.r1Causes?.map((c: any, i: number) => (
         <div key={i} className="point-row mb-2">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0" style={{ background: '#FCEBEB', color: '#A32D2D' }}>!</div>
-          <div>
-            <div className="font-medium text-sm">{c.title}</div>
+          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs flex-shrink-0" style={{ background: '#FCEBEB', color: '#A32D2D' }}>!</div>
+          <div className="min-w-0 flex-1">
+            <div className="font-medium text-xs sm:text-sm">{c.title}</div>
             <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{c.desc}</div>
           </div>
         </div>
       ))}
 
-      <h3 className="section-title mt-4">Early Warning System</h3>
+      <h3 className="section-title mt-4">Early Warning</h3>
       <div className="space-y-2 mb-4">
         {content.earlyWarnings?.map((w: string, i: number) => (
-          <div key={i} className="flex gap-3 p-3 rounded-lg border" style={{ borderColor: '#F7C1C1', background: '#FCEBEB' }}>
+          <div key={i} className="flex gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg border" style={{ borderColor: '#F7C1C1', background: '#FCEBEB' }}>
             <div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 flex-shrink-0"></div>
-            <div className="text-sm" style={{ color: '#791F1F' }}>{w}</div>
+            <div className="text-xs sm:text-sm" style={{ color: '#791F1F' }}>{w}</div>
           </div>
         ))}
       </div>
 
-      <h3 className="section-title">Strategi Monitoring via Komunitas</h3>
+      <h3 className="section-title">Strategi Monitoring</h3>
       {content.strategies?.map((s: any, i: number) => (
-        <div key={i} className="flex gap-3 mb-3 p-3 rounded-lg border" style={{ borderColor: 'var(--color-border-tertiary)' }}>
-          <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#FBEAF0', color: '#993556' }}>{s.step}</div>
-          <div>
-            <div className="font-medium text-sm">{s.title}</div>
+        <div key={i} className="flex gap-2 sm:gap-3 mb-3 p-2.5 sm:p-3 rounded-lg border" style={{ borderColor: 'var(--color-border-tertiary)' }}>
+          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: '#FBEAF0', color: '#993556' }}>{s.step}</div>
+          <div className="min-w-0 flex-1">
+            <div className="font-medium text-xs sm:text-sm">{s.title}</div>
             <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{s.desc}</div>
           </div>
         </div>
       ))}
 
       <div className="highlight-box mt-4" style={{ background: '#E1F5EE', color: '#0F6E56', borderLeftColor: '#1D9E75' }}>
-        <strong>Shared Values:</strong> Komunitas yang nasabahnya membayar lancar = kuota pinjaman meningkat bulan depan.
+        <strong>Shared Values:</strong> Komunitas lancar bayar = kuota meningkat bulan depan.
       </div>
       <div className="highlight-box" style={{ background: '#FBEAF0', color: '#993556', borderLeftColor: color }}>
         <strong>PAO Mature:</strong> Tidak menunggu tagihan jatuh tempo untuk mengetahui masalah.

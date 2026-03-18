@@ -1,14 +1,16 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/admin/login/page": "app/admin/login/page.js",
   "/admin/page": "app/admin/page.js",
-  "/api/quiz/route": "app/api/quiz/route.js",
-  "/api/admin/route": "app/api/admin/route.js",
+  "/api/modules/route": "app/api/modules/route.js",
   "/api/admin/export/route": "app/api/admin/export/route.js",
+  "/api/admin/auth/route": "app/api/admin/auth/route.js",
+  "/api/admin/route": "app/api/admin/route.js",
   "/api/progress/route": "app/api/progress/route.js",
+  "/api/quiz/route": "app/api/quiz/route.js",
   "/api/participants/route": "app/api/participants/route.js",
   "/bab/[slug]/page": "app/bab/[slug]/page.js",
-  "/api/modules/route": "app/api/modules/route.js",
   "/page": "app/page.js",
-  "/quiz/page": "app/quiz/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/quiz/page": "app/quiz/page.js"
 }

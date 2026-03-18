@@ -3,12 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Participant {
-  id          String    @id @default(uuid())
+  id          String    @id @default(cuid())
   nama        String
   cabang      String
   email       String?
@@ -20,13 +21,13 @@ model Participant {
 }
 
 model Module {
-  id          String    @id @default(uuid())
+  id          String    @id @default(cuid())
   title       String
   slug        String    @unique
   description String
   order       Int
-  color       String    // For UI theming
-  content     String    // JSON content
+  color       String
+  content     String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   
@@ -34,11 +35,11 @@ model Module {
 }
 
 model Question {
-  id          String    @id @default(uuid())
+  id          String    @id @default(cuid())
   moduleId    String
   question    String
-  options     String    // JSON array ["A. Option 1", "B. Option 2", ...]
-  correct     String    // "A", "B", "C", etc.
+  options     String
+  correct     String
   explanation String
   order       Int
   
@@ -46,22 +47,22 @@ model Question {
 }
 
 model QuizResult {
-  id            String    @id @default(uuid())
+  id            String    @id @default(cuid())
   participantId String
   score         Int
   total         Int
   percentage    Float
-  answers       String    // JSON object { "q1": "A", "q2": "B", ... }
-  status        String    // "LULUS" or "REMEDIAL"
+  answers       String
+  status        String
   createdAt     DateTime  @default(now())
   
   participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
 }
 
 model Progress {
-  id            String    @id @default(uuid())
+  id            String    @id @default(cuid())
   participantId String    @unique
-  modulesRead   String    // JSON array of module slugs ["bab1", "bab2"]
+  modulesRead   String
   percent       Int       @default(0)
   updatedAt     DateTime  @updatedAt
   
@@ -69,9 +70,9 @@ model Progress {
 }
 
 model Admin {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   username  String   @unique
-  password  String   // Hashed
+  password  String
   email     String?
   createdAt DateTime @default(now())
 }

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -12,6 +14,9 @@ export async function POST(request: Request) {
         { status: 400 }
       )
     }
+
+    // Check if prisma is connected
+    await prisma.$connect()
 
     const participant = await prisma.participant.create({
       data: {
@@ -31,10 +36,10 @@ export async function POST(request: Request) {
     })
 
     return NextResponse.json({ success: true, data: participant })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating participant:', error)
     return NextResponse.json(
-      { error: 'Gagal mendaftarkan peserta' },
+      { error: 'Gagal mendaftarkan peserta: ' + (error.message || 'Unknown error') },
       { status: 500 }
     )
   }
@@ -42,6 +47,8 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
+    await prisma.$connect()
+    
     const participants = await prisma.participant.findMany({
       include: {
         results: true,
@@ -51,10 +58,10 @@ export async function GET() {
     })
 
     return NextResponse.json({ success: true, data: participants })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching participants:', error)
     return NextResponse.json(
-      { error: 'Gagal mengambil data peserta' },
+      { error: 'Gagal mengambil data peserta: ' + (error.message || 'Unknown error') },
       { status: 500 }
     )
   }

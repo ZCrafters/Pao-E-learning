@@ -33,17 +33,24 @@
     padding: 0;
   }
   
+  html {
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+  }
+  
   body {
     font-family: var(--font-sans);
     background: var(--color-background-primary);
     color: var(--color-text-primary);
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @layer components {
   .nav-btn {
-    @apply px-4 py-2 text-sm border rounded-full cursor-pointer transition-all duration-150;
+    @apply px-3 py-2 text-xs sm:text-sm border rounded-full cursor-pointer transition-all duration-150 whitespace-nowrap;
     border-color: var(--color-border-secondary);
     background: transparent;
     color: var(--color-text-secondary);
@@ -61,7 +68,7 @@
   }
   
   .card {
-    @apply rounded-xl p-4 border;
+    @apply rounded-xl p-3 sm:p-4 border;
     background: var(--color-background-primary);
     border-color: var(--color-border-tertiary);
   }
@@ -71,7 +78,7 @@
   }
   
   .btn-primary {
-    @apply px-6 py-2.5 rounded-lg font-medium transition-all duration-150;
+    @apply px-4 sm:px-6 py-2.5 rounded-lg font-medium transition-all duration-150 text-sm sm:text-base;
     background: var(--color-text-primary);
     color: var(--color-background-primary);
   }
@@ -81,8 +88,12 @@
     transform: translateY(-1px);
   }
   
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  
   .btn-secondary {
-    @apply px-6 py-2.5 rounded-lg font-medium transition-all duration-150 border;
+    @apply px-4 sm:px-6 py-2.5 rounded-lg font-medium transition-all duration-150 border text-sm sm:text-base;
     background: transparent;
     border-color: var(--color-border-secondary);
     color: var(--color-text-secondary);
@@ -93,7 +104,7 @@
   }
   
   .progress-bar {
-    @apply h-1.5 rounded-full overflow-hidden;
+    @apply h-1.5 sm:h-2 rounded-full overflow-hidden;
     background: var(--color-background-secondary);
     border: 0.5px solid var(--color-border-tertiary);
   }
@@ -103,22 +114,22 @@
   }
   
   .theory-card {
-    @apply rounded-lg p-4 flex gap-3 border mb-4;
+    @apply rounded-lg p-3 sm:p-4 flex gap-2 sm:gap-3 border mb-3 sm:mb-4;
     background: var(--color-background-secondary);
     border-color: var(--color-border-tertiary);
   }
   
   .section-title {
-    @apply text-xs font-medium tracking-wider uppercase mb-3;
+    @apply text-xs font-medium tracking-wider uppercase mb-2 sm:mb-3;
     color: var(--color-text-secondary);
   }
   
   .highlight-box {
-    @apply rounded-lg p-4 mb-3 text-sm leading-relaxed border-l-4;
+    @apply rounded-lg p-3 sm:p-4 mb-3 text-xs sm:text-sm leading-relaxed border-l-4;
   }
   
   .point-row {
-    @apply flex gap-3 items-start p-3 rounded-lg border mb-2 transition-colors cursor-pointer;
+    @apply flex gap-2 sm:gap-3 items-start p-2.5 sm:p-3 rounded-lg border mb-2 transition-colors cursor-pointer;
     border-color: var(--color-border-tertiary);
   }
   
@@ -131,9 +142,10 @@
   }
   
   .input {
-    @apply w-full px-4 py-2.5 rounded-lg border text-sm transition-all;
+    @apply w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border text-sm transition-all;
     border-color: var(--color-border-secondary);
     background: var(--color-background-primary);
+    min-height: 44px;
   }
   
   .input:focus {
@@ -142,9 +154,10 @@
   }
   
   .quiz-option {
-    @apply flex items-start gap-3 p-4 rounded-lg border mb-2 cursor-pointer transition-all text-sm;
+    @apply flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border mb-2 cursor-pointer transition-all text-xs sm:text-sm;
     border-color: var(--color-border-tertiary);
     background: var(--color-background-primary);
+    min-height: 44px;
   }
   
   .quiz-option:hover {
@@ -162,6 +175,50 @@
     background: #fcebeb;
     border-color: #a32d2d;
     color: #501313;
+  }
+
+  /* Mobile touch targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Mobile container */
+  .mobile-container {
+    @apply max-w-3xl mx-auto px-3 sm:px-4 py-4 sm:py-8;
+  }
+
+  /* Mobile text sizes */
+  .mobile-title {
+    @apply text-lg sm:text-xl md:text-2xl font-medium;
+  }
+
+  .mobile-subtitle {
+    @apply text-xs sm:text-sm;
+  }
+
+  /* Mobile grid */
+  .mobile-grid-2 {
+    @apply grid grid-cols-2 gap-2 sm:gap-3;
+  }
+
+  .mobile-grid-4 {
+    @apply grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3;
+  }
+
+  /* Mobile padding */
+  .mobile-p {
+    @apply p-3 sm:p-4;
+  }
+
+  /* Mobile margin */
+  .mobile-mb {
+    @apply mb-3 sm:mb-4;
+  }
+
+  /* Safe area for mobile */
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-top: env(safe-area-inset-top);
   }
 }
 
@@ -182,5 +239,34 @@
   @keyframes slideIn {
     from { opacity: 0; transform: translateX(-20px); }
     to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Prevent text selection on mobile */
+  .no-select {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Smooth scrolling */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Mobile viewport fix */
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
   }
 }
